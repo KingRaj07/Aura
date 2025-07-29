@@ -27,6 +27,31 @@
         .product-card img { transition: transform 0.4s ease-in-out; }
         .product-card:hover img { transform: scale(1.05); }
         [data-aos] { opacity: 0; transition-property: opacity, transform; }
+
+        /* Added Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating-button {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-text-animation {
+            animation: fadeInText 1s ease-out forwards;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -69,9 +94,9 @@
         <section class="relative h-[85vh] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1509316976878-54c492338a8e?q=80&w=1887&auto=format&fit=crop');">
             <div class="absolute inset-0 bg-black/40"></div>
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4" data-aos="fade-up">Style is a way to say who you are</h1>
-                <p class="text-lg md:text-xl max-w-2xl mb-8" data-aos="fade-up" data-aos-delay="200">Discover the latest trends and timeless pieces.</p>
-                <a href="shop.html" class="bg-white text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="400">Shop Now</a>
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 hero-text-animation" style="opacity: 0;">Style is a way to say who you are</h1>
+                <p class="text-lg md:text-xl max-w-2xl mb-8 hero-text-animation" style="opacity: 0; animation-delay: 0.2s;">Discover the latest trends and timeless pieces.</p>
+                <a href="shop.html" class="bg-white text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300 transform hover:scale-105 floating-button">Shop Now</a>
             </div>
         </section>
 
@@ -220,6 +245,10 @@
         
         menuToggle.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
+        });
+        AOS.init({
+            duration: 800,
+            once: true
         });
     </script>
 </body>
