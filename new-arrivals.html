@@ -4,21 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura - New Arrivals</title>
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- AOS (Animate On Scroll) Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
         .nav-link { position: relative; transition: color 0.3s; }
@@ -27,35 +18,17 @@
         .product-card img { transition: transform 0.4s ease-in-out; }
         .product-card:hover img { transform: scale(1.05); }
         [data-aos] { opacity: 0; transition-property: opacity, transform; }
-
-        /* Added Animations */
-        @keyframes fadeInText {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .page-title-animation {
-            animation: fadeInText 1s ease-out forwards;
-        }
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+        @keyframes fadeInText { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .page-title-animation { animation: fadeInText 1s ease-out forwards; }
+        .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-
-    <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="lg:hidden">
-                    <button id="menu-toggle" class="text-gray-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
-                </div>
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
                 <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
@@ -67,7 +40,7 @@
                 <div class="flex items-center space-x-5">
                     <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
                     <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="shopping-cart" class="w-5 h-5"></i></a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                 </div>
             </div>
         </nav>
@@ -79,101 +52,40 @@
             <a href="contact.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</a>
         </div>
     </header>
-
     <main>
-        <!-- New Arrivals Header -->
         <section class="bg-gray-100 py-12">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl font-bold text-gray-900 page-title-animation" style="opacity:0;">New Arrivals</h1>
                 <p class="text-gray-600 mt-2 page-title-animation" style="opacity:0; animation-delay: 0.2s;">Check out the latest additions to our collection.</p>
             </div>
         </section>
-
-        <!-- Product Grid -->
         <section class="py-16 sm:py-24">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    <!-- Product Card 1 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
-                        <div class="overflow-hidden">
-                           <img src="https://images.unsplash.com/photo-1588117260148-b47826782c76?q=80&w=1887&auto=format&fit=crop" alt="Beige Trench Coat" class="w-full h-80 object-cover">
-                        </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Beige Trench Coat</h3>
-                            <p class="text-gray-600 mt-2">$189.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 2 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1887&auto=format&fit=crop" alt="Linen Blend Shirt" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Linen Blend Shirt</h3>
-                            <p class="text-gray-600 mt-2">$75.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 3 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="300">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1887&auto=format&fit=crop" alt="Classic Denim Jacket" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Classic Denim Jacket</h3>
-                            <p class="text-gray-600 mt-2">$120.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 4 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="400">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?q=80&w=1887&auto=format&fit=crop" alt="Floral Maxi Dress" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Floral Maxi Dress</h3>
-                            <p class="text-gray-600 mt-2">$145.00</p>
-                        </div>
-                    </div>
+                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1588117260148-b47826782c76?q=80&w=1887&auto=format&fit=crop" alt="Beige Trench Coat" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Beige Trench Coat</h3><p class="text-gray-600 mt-2">$189.00</p></div></div>
+                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1887&auto=format&fit=crop" alt="Linen Blend Shirt" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Linen Blend Shirt</h3><p class="text-gray-600 mt-2">$75.00</p></div></div>
+                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="300"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1887&auto=format&fit=crop" alt="Classic Denim Jacket" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Classic Denim Jacket</h3><p class="text-gray-600 mt-2">$120.00</p></div></div>
+                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="400"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?q=80&w=1887&auto=format&fit=crop" alt="Floral Maxi Dress" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Floral Maxi Dress</h3><p class="text-gray-600 mt-2">$145.00</p></div></div>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200">
         <div class="container mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- About -->
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">AURA</h3>
-                    <p class="text-gray-600 max-w-md">Timeless apparel designed for the modern world.</p>
-                </div>
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="about.html" class="text-gray-600 hover:text-gray-900">About Us</a></li>
-                        <li><a href="contact.html" class="text-gray-600 hover:text-gray-900">Contact</a></li>
-                    </ul>
-                </div>
+                <div class="col-span-1 md:col-span-2"><h3 class="text-xl font-bold text-gray-900 mb-4">AURA</h3><p class="text-gray-600 max-w-md">Timeless apparel designed for the modern world.</p></div>
+                <div><h4 class="font-semibold text-gray-800 mb-4">Quick Links</h4><ul class="space-y-2"><li><a href="about.html" class="text-gray-600 hover:text-gray-900">About Us</a></li><li><a href="contact.html" class="text-gray-600 hover:text-gray-900">Contact</a></li></ul></div>
             </div>
-            <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm">
-                <p>&copy; 2024 Aura. All Rights Reserved.</p>
-            </div>
+            <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm"><p>&copy; 2024 Aura. All Rights Reserved.</p></div>
         </div>
     </footer>
-    
-    <!-- AOS (Animate On Scroll) Library Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
     <script>
         lucide.createIcons();
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+        AOS.init({ duration: 800, once: true });
     </script>
 </body>
 </html>
