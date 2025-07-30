@@ -17,16 +17,31 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        body { font-family: 'Inter', sans-serif; }
         .nav-link { position: relative; transition: color 0.3s; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        /* Animation for the form container */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate3d(0, -20px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        .form-fade-in {
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/80 backdrop-blur-md absolute top-0 left-0 right-0 z-50">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="lg:hidden">
@@ -58,48 +73,57 @@
         </div>
     </header>
 
-    <main class="flex items-center justify-center min-h-screen bg-gray-100">
-        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-            <!-- Tab buttons -->
-            <div>
-                <div class="flex border-b">
-                    <button id="login-tab" class="w-1/2 py-4 text-center font-semibold text-gray-800 border-b-2 border-gray-800">Login</button>
-                    <button id="signup-tab" class="w-1/2 py-4 text-center font-semibold text-gray-500">Sign Up</button>
+    <main class="relative min-h-screen w-full">
+        <!-- Background Image Container -->
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1552664199-fd31f7431a55?q=80&w=1974&auto=format&fit=crop');"></div>
+        
+        <!-- Blurred Overlay -->
+        <div class="absolute inset-0 bg-white/30 backdrop-blur-md"></div>
+
+        <!-- Form Content -->
+        <div class="relative flex items-center justify-center min-h-screen">
+            <div class="w-full max-w-md p-8 space-y-6 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl form-fade-in">
+                <!-- Tab buttons -->
+                <div>
+                    <div class="flex border-b">
+                        <button id="login-tab" class="w-1/2 py-4 text-center font-semibold text-gray-800 border-b-2 border-gray-800">Login</button>
+                        <button id="signup-tab" class="w-1/2 py-4 text-center font-semibold text-gray-500">Sign Up</button>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Login Form -->
-            <div id="login-form-container">
-                <form id="login-form" class="space-y-6">
-                    <div>
-                        <label for="login-email" class="text-sm font-medium text-gray-700">Email</label>
-                        <input id="login-email" type="email" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    </div>
-                    <div>
-                        <label for="login-password" class="text-sm font-medium text-gray-700">Password</label>
-                        <input id="login-password" type="password" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    </div>
-                    <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Login</button>
-                </form>
-            </div>
+                <!-- Login Form -->
+                <div id="login-form-container">
+                    <form id="login-form" class="space-y-6">
+                        <div>
+                            <label for="login-email" class="text-sm font-medium text-gray-700">Email</label>
+                            <input id="login-email" type="email" required class="w-full px-4 py-2 mt-2 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                        </div>
+                        <div>
+                            <label for="login-password" class="text-sm font-medium text-gray-700">Password</label>
+                            <input id="login-password" type="password" required class="w-full px-4 py-2 mt-2 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                        </div>
+                        <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Login</button>
+                    </form>
+                </div>
 
-            <!-- Sign Up Form -->
-            <div id="signup-form-container" class="hidden">
-                <form id="signup-form" class="space-y-6">
-                    <div>
-                        <label for="signup-email" class="text-sm font-medium text-gray-700">Email</label>
-                        <input id="signup-email" type="email" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    </div>
-                    <div>
-                        <label for="signup-password" class="text-sm font-medium text-gray-700">Password</label>
-                        <input id="signup-password" type="password" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    </div>
-                    <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Create Account</button>
-                </form>
+                <!-- Sign Up Form -->
+                <div id="signup-form-container" class="hidden">
+                    <form id="signup-form" class="space-y-6">
+                        <div>
+                            <label for="signup-email" class="text-sm font-medium text-gray-700">Email</label>
+                            <input id="signup-email" type="email" required class="w-full px-4 py-2 mt-2 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                        </div>
+                        <div>
+                            <label for="signup-password" class="text-sm font-medium text-gray-700">Password</label>
+                            <input id="signup-password" type="password" required class="w-full px-4 py-2 mt-2 bg-transparent border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                        </div>
+                        <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Create Account</button>
+                    </form>
+                </div>
+                
+                <!-- Message area for errors or success -->
+                <p id="auth-message" class="text-sm text-center"></p>
             </div>
-            
-            <!-- Message area for errors or success -->
-            <p id="auth-message" class="text-sm text-center"></p>
         </div>
     </main>
 
@@ -111,14 +135,14 @@
 
         // IMPORTANT: Replace this with your new, secure Firebase config
         const firebaseConfig = {
-              apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-              authDomain: "aura-shop-6271b.firebaseapp.com",
-              projectId: "aura-shop-6271b",
-              storageBucket: "aura-shop-6271b.firebasestorage.app",
-              messagingSenderId: "843655403885",
-              appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
-              measurementId: "G-LQBGT60CE2"
-        };
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
+            measurementId: "G-LQBGT60CE2"
+            };
         
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
