@@ -63,11 +63,11 @@
                     <input type="number" id="product-price" step="0.01" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-800 focus:border-gray-800">
                 </div>
                 <div class="col-span-2">
-                    <label for="product-image" class="block text-sm font-medium text-gray-700">Image URL</label>
-                    <input type="url" id="product-image" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-gray-800 focus:border-gray-800">
+                    <label for="product-image" class="block text-sm font-medium text-gray-700">Product Image</label>
+                    <input type="file" id="product-image" accept="image/*" required class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
                 </div>
                 <div class="col-span-2">
-                    <button type="submit" class="w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition duration-300">Add Product</button>
+                    <button type="submit" id="submit-product-button" class="w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition duration-300">Add Product</button>
                 </div>
             </form>
             <p id="product-message" class="text-sm mt-4 text-center"></p>
@@ -90,37 +90,42 @@
 
     <!-- Firebase SDK -->
     <script type="module">
+        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         // IMPORTANT: Replace this with your new, secure Firebase config
         const firebaseConfig = {
-          apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-          authDomain: "aura-shop-6271b.firebaseapp.com",
-          projectId: "aura-shop-6271b",
-          storageBucket: "aura-shop-6271b.firebasestorage.app",
-          messagingSenderId: "843655403885",
-          appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
-          measurementId: "G-LQBGT60CE2"
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
         };
         
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
+        // DOM Elements
         const adminContent = document.getElementById('admin-content');
         const loadingAuth = document.getElementById('loading-auth');
         const logoutButton = document.getElementById('logout-button');
         const addProductForm = document.getElementById('add-product-form');
         const productMessage = document.getElementById('product-message');
         const productList = document.getElementById('product-list');
+        const submitProductButton = document.getElementById('submit-product-button');
 
+        // --- SECURITY CHECK ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userDocRef = doc(db, "users", user.uid);
                 const userDocSnap = await getDoc(userDocRef);
-
                 if (userDocSnap.exists() && userDocSnap.data().isAdmin === true) {
                     loadingAuth.classList.add('hidden');
                     adminContent.classList.remove('hidden');
@@ -136,38 +141,59 @@
             }
         });
 
+        // --- LOGOUT LOGIC ---
         logoutButton.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.href = 'index.html';
-            }).catch((error) => {
-                console.error("Logout failed:", error);
-            });
+            signOut(auth).then(() => { window.location.href = 'index.html'; });
         });
 
+        // --- ADD PRODUCT LOGIC ---
         addProductForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const productName = document.getElementById('product-name').value;
             const productPrice = parseFloat(document.getElementById('product-price').value);
-            const productImage = document.getElementById('product-image').value;
+            const imageFile = document.getElementById('product-image').files[0];
+
+            if (!imageFile) {
+                productMessage.textContent = 'Please select an image file.';
+                productMessage.classList.add('text-red-500');
+                return;
+            }
+
+            submitProductButton.disabled = true;
+            submitProductButton.textContent = 'Uploading...';
+            productMessage.textContent = 'Uploading image, please wait...';
+            productMessage.classList.remove('text-red-500', 'text-green-500');
 
             try {
+                // 1. Upload image to Firebase Storage
+                const storageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
+                const uploadResult = await uploadBytes(storageRef, imageFile);
+                
+                // 2. Get the URL of the uploaded image
+                const imageUrl = await getDownloadURL(uploadResult.ref);
+
+                // 3. Save product details (including the URL) to Firestore
                 await addDoc(collection(db, "products"), {
                     name: productName,
                     price: productPrice,
-                    imageUrl: productImage
+                    imageUrl: imageUrl
                 });
+
                 productMessage.textContent = 'Product added successfully!';
                 productMessage.classList.add('text-green-500');
-                productMessage.classList.remove('text-red-500');
                 addProductForm.reset();
+
             } catch (error) {
                 console.error("Error adding product: ", error);
                 productMessage.textContent = 'Error adding product. Please try again.';
                 productMessage.classList.add('text-red-500');
-                productMessage.classList.remove('text-green-500');
+            } finally {
+                submitProductButton.disabled = false;
+                submitProductButton.textContent = 'Add Product';
             }
         });
 
+        // --- LOAD & DELETE PRODUCTS LOGIC ---
         function loadProducts() {
             const productsRef = collection(db, "products");
             onSnapshot(productsRef, (snapshot) => {
@@ -188,12 +214,27 @@
                                 <p class="text-sm text-gray-500">$${product.price.toFixed(2)}</p>
                             </div>
                         </div>
-                        <button class="text-red-500 hover:text-red-700">Delete</button>
+                        <button data-id="${doc.id}" class="delete-btn text-red-500 hover:text-red-700">Delete</button>
                     `;
                     productList.appendChild(productElement);
                 });
             });
         }
+
+        productList.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                const productId = e.target.dataset.id;
+                if (productId) {
+                    try {
+                        await deleteDoc(doc(db, "products", productId));
+                        // The onSnapshot listener will automatically refresh the list
+                    } catch (error) {
+                        console.error("Error deleting product:", error);
+                        alert("Could not delete product. Please try again.");
+                    }
+                }
+            }
+        });
 
     </script>
     
