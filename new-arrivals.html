@@ -25,6 +25,8 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -38,8 +40,6 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="shopping-cart" class="w-5 h-5"></i></a>
                     <a href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                 </div>
             </div>
@@ -52,6 +52,7 @@
             <a href="contact.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</a>
         </div>
     </header>
+
     <main>
         <section class="bg-gray-100 py-12">
             <div class="container mx-auto px-6 text-center">
@@ -59,17 +60,19 @@
                 <p class="text-gray-600 mt-2 page-title-animation" style="opacity:0; animation-delay: 0.2s;">Check out the latest additions to our collection.</p>
             </div>
         </section>
+
+        <!-- Product Grid -->
         <section class="py-16 sm:py-24">
             <div class="container mx-auto px-6">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1588117260148-b47826782c76?q=80&w=1887&auto=format&fit=crop" alt="Beige Trench Coat" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Beige Trench Coat</h3><p class="text-gray-600 mt-2">$189.00</p></div></div>
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1887&auto=format&fit=crop" alt="Linen Blend Shirt" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Linen Blend Shirt</h3><p class="text-gray-600 mt-2">$75.00</p></div></div>
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="300"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1887&auto=format&fit=crop" alt="Classic Denim Jacket" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Classic Denim Jacket</h3><p class="text-gray-600 mt-2">$120.00</p></div></div>
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="400"><div class="overflow-hidden"><img src="https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?q=80&w=1887&auto=format&fit=crop" alt="Floral Maxi Dress" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">Floral Maxi Dress</h3><p class="text-gray-600 mt-2">$145.00</p></div></div>
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Products will be loaded here by JavaScript -->
+                    <p id="loading-products">Loading products...</p>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200">
         <div class="container mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -79,7 +82,59 @@
             <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm"><p>&copy; 2024 Aura. All Rights Reserved.</p></div>
         </div>
     </footer>
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+          authDomain: "aura-shop-6271b.firebaseapp.com",
+          projectId: "aura-shop-6271b",
+          storageBucket: "aura-shop-6271b.firebasestorage.app",
+          messagingSenderId: "843655403885",
+          appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
+          measurementId: "G-LQBGT60CE2"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const productGrid = document.getElementById('product-grid');
+        const loadingMessage = document.getElementById('loading-products');
+
+        // Query to get the last 4 products
+        const productsQuery = query(collection(db, "products"), limit(4));
+
+        onSnapshot(productsQuery, (snapshot) => {
+            productGrid.innerHTML = ''; // Clear existing content
+            if (snapshot.empty) {
+                productGrid.innerHTML = '<p>No products have been added yet.</p>';
+                return;
+            }
+            snapshot.forEach((doc, index) => {
+                const product = doc.data();
+                const productId = doc.id;
+                const productCard = `
+                    <a href="product.html?id=${productId}" class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="${(index % 4 + 1) * 100}">
+                        <div class="overflow-hidden">
+                           <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-80 object-cover">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="font-semibold text-lg text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 mt-2">$${product.price.toFixed(2)}</p>
+                        </div>
+                    </a>
+                `;
+                productGrid.innerHTML += productCard;
+            });
+            AOS.refresh();
+        });
+    </script>
+    
     <script>
         lucide.createIcons();
         const menuToggle = document.getElementById('menu-toggle');
