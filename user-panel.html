@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Your Account</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-5">
+                    <a href="user-panel.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <button id="logout-button" class="hidden text-gray-600 hover:text-gray-900"><i data-lucide="log-out" class="w-5 h-5"></i></button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- This main content will be hidden by default and shown only to logged-in users -->
+    <main id="user-content" class="container mx-auto p-8 hidden">
+        <h1 class="text-4xl font-bold mb-8">Your Account</h1>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Profile</h2>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-medium text-gray-500">Email Address</p>
+                    <p id="user-email" class="text-lg text-gray-800">Loading...</p>
+                </div>
+                <!-- More user details like name, address, etc. can be added here later -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- This message is shown while checking authentication -->
+    <div id="loading-auth" class="flex items-center justify-center h-screen">
+        <p class="text-lg text-gray-600">Loading your profile...</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // IMPORTANT: Replace this with your new, secure Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // DOM Elements
+        const userContent = document.getElementById('user-content');
+        const loadingAuth = document.getElementById('loading-auth');
+        const logoutButton = document.getElementById('logout-button');
+        const userEmailElement = document.getElementById('user-email');
+
+        // --- AUTHENTICATION CHECK ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in, show the panel
+                loadingAuth.classList.add('hidden');
+                userContent.classList.remove('hidden');
+                logoutButton.classList.remove('hidden');
+                
+                // Display user's email
+                userEmailElement.textContent = user.email;
+            } else {
+                // User is not logged in, redirect them to the login page
+                alert("Please log in to view your account.");
+                window.location.href = 'login.html';
+            }
+        });
+
+        // --- LOGOUT LOGIC ---
+        logoutButton.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = 'index.html';
+            }).catch((error) => {
+                console.error("Logout failed:", error);
+            });
+        });
+
+    </script>
+    
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
