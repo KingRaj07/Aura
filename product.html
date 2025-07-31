@@ -40,10 +40,18 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
         </nav>
+        <div id="mobile-menu" class="lg:hidden hidden px-6 pb-4">
+             <a href="index.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Home</a>
+            <a href="shop.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Shop</a>
+            <a href="new-arrivals.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">New Arrivals</a>
+            <a href="about.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">About Us</a>
+            <a href="contact.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</a>
+        </div>
     </header>
 
     <!-- Main Product Content -->
@@ -62,13 +70,12 @@
 
         // IMPORTANT: Replace this with your secure Firebase config
         const firebaseConfig = {
-          apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-          authDomain: "aura-shop-6271b.firebaseapp.com",
-          projectId: "aura-shop-6271b",
-          storageBucket: "aura-shop-6271b.firebasestorage.app",
-          messagingSenderId: "843655403885",
-          appId: "1:843655403885:web:f4c10d0d0aadbc8f396264",
-          measurementId: "G-LQBGT60CE2"
+              apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+              authDomain: "aura-shop-6271b.firebaseapp.com",
+              projectId: "aura-shop-6271b",
+              storageBucket: "aura-shop-6271b.firebasestorage.app",
+              messagingSenderId: "843655403885",
+              appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
         };
         
         const app = initializeApp(firebaseConfig);
@@ -76,9 +83,16 @@
 
         const productContentContainer = document.getElementById('product-content-container');
         const loadingProduct = document.getElementById('loading-product');
+        const cartCountElement = document.getElementById('cart-count');
+
+        let currentProduct = null;
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('auraCart')) || [];
+            cartCountElement.textContent = cart.length;
+        }
 
         async function loadProduct() {
-            // Get the product ID from the URL (e.g., ?id=12345)
             const params = new URLSearchParams(window.location.search);
             const productId = params.get('id');
 
@@ -92,26 +106,31 @@
                 const productDocSnap = await getDoc(productDocRef);
 
                 if (productDocSnap.exists()) {
-                    const product = productDocSnap.data();
+                    const productData = productDocSnap.data();
+                    currentProduct = { id: productDocSnap.id, ...productData }; // Store product details
                     
-                    // Update the page title
-                    document.title = `Aura - ${product.name}`;
+                    document.title = `Aura - ${currentProduct.name}`;
 
-                    // Create and inject the product HTML
                     productContentContainer.innerHTML = `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                             <div>
-                                <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-auto object-cover rounded-lg shadow-lg">
+                                <img src="${currentProduct.imageUrl}" alt="${currentProduct.name}" class="w-full h-auto object-cover rounded-lg shadow-lg">
                             </div>
                             <div class="space-y-6">
-                                <h1 class="text-4xl font-bold text-gray-900">${product.name}</h1>
-                                <p class="text-3xl font-medium text-gray-700">$${product.price.toFixed(2)}</p>
+                                <h1 class="text-4xl font-bold text-gray-900">${currentProduct.name}</h1>
+                                <p class="text-3xl font-medium text-gray-700">$${currentProduct.price.toFixed(2)}</p>
                                 <p class="text-gray-600 leading-relaxed">This is a placeholder description. You can add a description field in your admin panel to customize this for each product.</p>
-                                <button class="w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition duration-300">Add to Cart</button>
+                                <button id="add-to-cart-btn" class="w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition duration-300">Add to Cart</button>
+                                <p id="add-to-cart-message" class="text-center text-green-500 mt-2"></p>
                             </div>
                         </div>
                     `;
                     loadingProduct.classList.add('hidden');
+                    
+                    // Add event listener AFTER the button is created
+                    const addToCartBtn = document.getElementById('add-to-cart-btn');
+                    addToCartBtn.addEventListener('click', handleAddToCart);
+
                 } else {
                     loadingProduct.innerHTML = '<p class="text-red-500">Error: Product not found.</p>';
                 }
@@ -121,7 +140,29 @@
             }
         }
 
+        function handleAddToCart() {
+            if (!currentProduct) return;
+
+            let cart = JSON.parse(localStorage.getItem('auraCart')) || [];
+            
+            // Check if product is already in cart to avoid duplicates
+            if (!cart.some(item => item.id === currentProduct.id)) {
+                cart.push(currentProduct);
+                localStorage.setItem('auraCart', JSON.stringify(cart));
+                updateCartCount();
+
+                const messageEl = document.getElementById('add-to-cart-message');
+                messageEl.textContent = "Added to cart!";
+                setTimeout(() => { messageEl.textContent = ""; }, 2000);
+            } else {
+                const messageEl = document.getElementById('add-to-cart-message');
+                messageEl.textContent = "Item is already in your cart.";
+                setTimeout(() => { messageEl.textContent = ""; }, 2000);
+            }
+        }
+
         loadProduct();
+        updateCartCount(); // Initial count on page load
     </script>
     
     <script>
