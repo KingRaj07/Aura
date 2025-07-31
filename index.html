@@ -5,66 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura - Modern Clothing</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS: A utility-first CSS framework for rapid UI development. -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Imports the 'Inter' font family for modern typography. -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
+    <!-- Lucide Icons: A library for clean and beautiful icons. -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- AOS (Animate On Scroll) Library -->
+    <!-- AOS (Animate On Scroll) Library: Adds animations to elements as you scroll down the page. -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        /* --- Custom CSS Styles --- */
+
+        /* Sets the default font for the entire page. */
         body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        
+        /* Styles for the navigation links, creating an underline animation on hover. */
         .nav-link { position: relative; transition: color 0.3s; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        
+        /* Adds a subtle zoom effect to product images on hover. */
         .product-card img { transition: transform 0.4s ease-in-out; }
         .product-card:hover img { transform: scale(1.05); }
+        
+        /* Initial state for AOS animations (starts invisible). */
         [data-aos] { opacity: 0; transition-property: opacity, transform; }
 
-        /* Added Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-        .floating-button {
-            animation: float 3s ease-in-out infinite;
-        }
+        /* --- Custom Keyframe Animations --- */
 
-        @keyframes fadeInText {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .hero-text-animation {
-            animation: fadeInText 1s ease-out forwards;
-        }
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+        /* Creates a gentle floating effect for buttons. */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
+        .floating-button { animation: float 3s ease-in-out infinite; }
+
+        /* Creates a fade-in and slide-up effect for text. */
+        @keyframes fadeInText { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-text-animation { animation: fadeInText 1s ease-out forwards; }
+        
+        /* Adds a lift and shadow effect to product cards on hover for a 3D feel. */
+        .product-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-
-    <!-- Header -->
+    <!-- Header Section: Contains the navigation bar, logo, and icons. -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="lg:hidden">
-                    <button id="menu-toggle" class="text-gray-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
-                </div>
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
                 <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="index.html" class="nav-link text-gray-900 font-medium active">Home</a>
@@ -74,12 +67,12 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
+                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                     <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                 </div>
             </div>
         </nav>
+        <!-- Mobile Menu: Hidden on desktop, shown on smaller screens when the hamburger icon is clicked. -->
         <div id="mobile-menu" class="lg:hidden hidden px-6 pb-4">
             <a href="index.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Home</a>
             <a href="shop.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Shop</a>
@@ -89,8 +82,9 @@
         </div>
     </header>
 
+    <!-- Main Content Area -->
     <main>
-        <!-- Hero Section -->
+        <!-- Hero Section: The large banner image at the top of the page. -->
         <section class="relative h-[85vh] bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1509316976878-54c492338a8e?q=80&w=1887&auto=format&fit=crop');">
             <div class="absolute inset-0 bg-black/40"></div>
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
@@ -99,157 +93,121 @@
                 <a href="shop.html" class="bg-white text-gray-900 font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition duration-300 transform hover:scale-105 floating-button">Shop Now</a>
             </div>
         </section>
-
-        <!-- New Arrivals Section -->
+        
+        <!-- New Arrivals Section: Displays the latest products from the database. -->
         <section class="py-16 sm:py-24">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-gray-900 mb-12" data-aos="fade-up">New Arrivals</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Product Card 1 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
-                        <div class="overflow-hidden">
-                           <img src="https://images.unsplash.com/photo-1588117260148-b47826782c76?q=80&w=1887&auto=format&fit=crop" alt="Beige Trench Coat" class="w-full h-80 object-cover">
-                        </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Beige Trench Coat</h3>
-                            <p class="text-gray-600 mt-2">$189.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 2 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1887&auto=format&fit=crop" alt="Linen Blend Shirt" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Linen Blend Shirt</h3>
-                            <p class="text-gray-600 mt-2">$75.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 3 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="300">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1887&auto=format&fit=crop" alt="Classic Denim Jacket" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Classic Denim Jacket</h3>
-                            <p class="text-gray-600 mt-2">$120.00</p>
-                        </div>
-                    </div>
-                    <!-- Product Card 4 -->
-                    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="400">
-                         <div class="overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1545291730-faff8ca1d4b0?q=80&w=1887&auto=format&fit=crop" alt="Floral Maxi Dress" class="w-full h-80 object-cover">
-                         </div>
-                        <div class="p-6 text-center">
-                            <h3 class="font-semibold text-lg text-gray-800">Floral Maxi Dress</h3>
-                            <p class="text-gray-600 mt-2">$145.00</p>
-                        </div>
-                    </div>
+                <div id="new-arrivals-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <p id="loading-new-arrivals">Loading new arrivals...</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer Section: Contains company info, links, and the newsletter signup. -->
     <footer class="bg-white border-t border-gray-200">
         <div class="container mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- About -->
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">AURA</h3>
-                    <p class="text-gray-600 max-w-md">Timeless apparel designed for the modern world.</p>
-                </div>
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="about.html" class="text-gray-600 hover:text-gray-900">About Us</a></li>
-                        <li><a href="contact.html" class="text-gray-600 hover:text-gray-900">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- Newsletter -->
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-4">Join Our Newsletter</h4>
-                    <p class="text-gray-600 mb-4">Get 10% off your first order.</p>
-                    <form id="newsletter-form">
-                        <div class="flex">
-                            <input id="newsletter-email" type="email" placeholder="Your email" required class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gray-800">
-                            <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-r-md hover:bg-gray-900">
-                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <p id="newsletter-message" class="text-sm mt-2"></p>
-                </div>
+                <div class="col-span-1 md:col-span-2"><h3 class="text-xl font-bold text-gray-900 mb-4">AURA</h3><p class="text-gray-600 max-w-md">Timeless apparel designed for the modern world.</p></div>
+                <div><h4 class="font-semibold text-gray-800 mb-4">Quick Links</h4><ul class="space-y-2"><li><a href="about.html" class="text-gray-600 hover:text-gray-900">About Us</a></li><li><a href="contact.html" class="text-gray-600 hover:text-gray-900">Contact</a></li></ul></div>
+                <div><h4 class="font-semibold text-gray-800 mb-4">Join Our Newsletter</h4><p class="text-gray-600 mb-4">Get 10% off your first order.</p><form id="newsletter-form"><div class="flex"><input id="newsletter-email" type="email" placeholder="Your email" required class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gray-800"><button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-r-md hover:bg-gray-900"><i data-lucide="arrow-right" class="w-5 h-5"></i></button></div></form><p id="newsletter-message" class="text-sm mt-2"></p></div>
             </div>
-            <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm">
-                <p>&copy; 2024 Aura. All Rights Reserved.</p>
-            </div>
+            <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm"><p>&copy; 2024 Aura. All Rights Reserved.</p></div>
         </div>
     </footer>
 
-    <!-- AOS (Animate On Scroll) Library Script -->
+    <!-- JavaScript Libraries -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Firebase SDK -->
+    
+    <!-- Main JavaScript Logic for the page -->
     <script type="module">
-        // Import Firebase modules
+        // --- Firebase SDK Imports ---
+        // Imports the necessary functions from the Firebase libraries to connect to the database.
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // IMPORTANT: Replace this with your new, secure Firebase config
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
+        import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        let db;
-        try {
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-        } catch (error) {
-            console.error("Firebase initialization failed:", error);
+        // --- Firebase Configuration ---
+        // This object connects the website to your specific Firebase project.
+        // IMPORTANT: You must replace the placeholder values with your real keys.
+        const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
+        
+        // --- Initialize Firebase ---
+        let db; 
+        try { 
+            const app = initializeApp(firebaseConfig); 
+            db = getFirestore(app); 
+        } catch (error) { 
+            console.error("Firebase initialization failed:", error); 
         }
 
+        // --- Newsletter Signup Logic ---
+        // Handles the form submission for the newsletter in the footer.
         const newsletterForm = document.getElementById('newsletter-form');
         if (newsletterForm) {
             const newsletterEmailInput = document.getElementById('newsletter-email');
             const newsletterMessage = document.getElementById('newsletter-message');
             newsletterForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!db) return;
+                e.preventDefault(); 
+                if (!db) return; 
                 const email = newsletterEmailInput.value;
-                newsletterMessage.textContent = "Subscribing...";
+                newsletterMessage.textContent = "Subscribing..."; 
                 newsletterMessage.classList.remove('text-red-500', 'text-green-500');
-                try {
+                try { 
                     await addDoc(collection(db, "newsletter-subscribers"), { email: email, subscribedAt: serverTimestamp() });
-                    newsletterMessage.textContent = "Thank you for subscribing!";
-                    newsletterMessage.classList.add('text-green-500');
+                    newsletterMessage.textContent = "Thank you for subscribing!"; 
+                    newsletterMessage.classList.add('text-green-500'); 
                     newsletterEmailInput.value = '';
-                } catch (error) {
-                    newsletterMessage.textContent = "Subscription failed. Please try again.";
-                    newsletterMessage.classList.add('text-red-500');
+                } catch (error) { 
+                    newsletterMessage.textContent = "Subscription failed. Please try again."; 
+                    newsletterMessage.classList.add('text-red-500'); 
                 }
             });
         }
+
+        // --- Dynamic New Arrivals Logic ---
+        // Fetches the 4 most recent products from the database and displays them.
+        const newArrivalsGrid = document.getElementById('new-arrivals-grid');
+        const newArrivalsQuery = query(collection(db, "products"), limit(4));
+        onSnapshot(newArrivalsQuery, (snapshot) => {
+            newArrivalsGrid.innerHTML = ''; // Clears any old content.
+            if (snapshot.empty) { 
+                newArrivalsGrid.innerHTML = '<p>Check back soon for new arrivals!</p>'; 
+                return; 
+            }
+            snapshot.forEach((doc, index) => {
+                const product = doc.data(); 
+                const productId = doc.id;
+                // Creates the HTML for each product card.
+                const productCard = `<a href="product.html?id=${productId}" class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="${(index % 4 + 1) * 100}"><div class="overflow-hidden"><img src="${product.imageUrl}" alt="${product.name}" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">${product.name}</h3><p class="text-gray-600 mt-2">$${product.price.toFixed(2)}</p></div></a>`;
+                newArrivalsGrid.innerHTML += productCard;
+            });
+            AOS.refresh(); // Tells the animation library to check for new items.
+        });
+
+        // --- Shopping Cart Counter Logic ---
+        // Checks how many items are in the cart (stored in the browser) and updates the icon.
+        const cartCountElement = document.getElementById('cart-count');
+        function updateCartCount() { 
+            const cart = JSON.parse(localStorage.getItem('auraCart')) || []; 
+            cartCountElement.textContent = cart.length; 
+        }
+        updateCartCount(); // Update on initial page load.
+        window.addEventListener('storage', updateCartCount); // Listens for changes from other pages.
     </script>
     
+    <!-- General Page Scripts -->
     <script>
+        // Initializes all the icons from the Lucide library.
         lucide.createIcons();
+        
+        // Logic for the mobile menu (hamburger icon).
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
         
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        AOS.init({
-            duration: 800,
-            once: true
-        });
+        // Initializes the Animate on Scroll library.
+        AOS.init({ duration: 800, once: true });
     </script>
 </body>
 </html>
