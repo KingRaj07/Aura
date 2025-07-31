@@ -44,6 +44,13 @@
                 </div>
             </div>
         </nav>
+        <div id="mobile-menu" class="lg:hidden hidden px-6 pb-4">
+            <a href="index.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Home</a>
+            <a href="shop.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Shop</a>
+            <a href="new-arrivals.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">New Arrivals</a>
+            <a href="about.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">About Us</a>
+            <a href="contact.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</a>
+        </div>
     </header>
 
     <main class="container mx-auto p-8">
@@ -74,7 +81,7 @@
                             <span id="cart-total">$0.00</span>
                         </div>
                     </div>
-                    <button class="w-full mt-6 bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition">Proceed to Checkout</button>
+                    <a href="checkout.html" id="checkout-link" class="block text-center w-full mt-6 bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition">Proceed to Checkout</a>
                 </div>
             </aside>
         </div>
@@ -86,6 +93,7 @@
         const cartSubtotalElement = document.getElementById('cart-subtotal');
         const cartTotalElement = document.getElementById('cart-total');
         const cartCountElement = document.getElementById('cart-count');
+        const checkoutLink = document.getElementById('checkout-link');
 
         function displayCart() {
             const cart = JSON.parse(localStorage.getItem('auraCart')) || [];
@@ -96,9 +104,11 @@
                 cartCountElement.textContent = 0;
                 cartSubtotalElement.textContent = '$0.00';
                 cartTotalElement.textContent = '$0.00';
+                checkoutLink.classList.add('opacity-50', 'pointer-events-none');
                 return;
             }
 
+            checkoutLink.classList.remove('opacity-50', 'pointer-events-none');
             let subtotal = 0;
             cart.forEach(item => {
                 const itemElement = document.createElement('div');
@@ -125,13 +135,14 @@
 
         // --- REMOVE FROM CART LOGIC ---
         cartItemsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.remove-from-cart')) {
-                const button = e.target.closest('.remove-from-cart');
-                const productId = button.dataset.id;
+            const removeButton = e.target.closest('.remove-from-cart');
+            if (removeButton) {
+                const productId = removeButton.dataset.id;
                 let cart = JSON.parse(localStorage.getItem('auraCart')) || [];
                 cart = cart.filter(item => item.id !== productId);
                 localStorage.setItem('auraCart', JSON.stringify(cart));
                 displayCart(); // Refresh the cart display
+                window.dispatchEvent(new Event('storage')); // Notify other pages of the change
             }
         });
         
@@ -141,6 +152,9 @@
     
     <script>
         lucide.createIcons();
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
     </script>
 </body>
 </html>
