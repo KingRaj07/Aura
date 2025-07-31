@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Shopping Cart</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-5">
+                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="cart.html" class="text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold mb-8">Your Shopping Cart</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div id="cart-items-container" class="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <!-- Cart items will be loaded here -->
+                <p>Your cart is empty.</p>
+            </div>
+
+            <!-- Order Summary -->
+            <aside class="md:col-span-1">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg border-t pt-2 mt-2">
+                            <span>Total</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                    </div>
+                    <button class="w-full mt-6 bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition">Proceed to Checkout</button>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <script type="module">
+        // --- CART DISPLAY LOGIC ---
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartSubtotalElement = document.getElementById('cart-subtotal');
+        const cartTotalElement = document.getElementById('cart-total');
+        const cartCountElement = document.getElementById('cart-count');
+
+        function displayCart() {
+            const cart = JSON.parse(localStorage.getItem('auraCart')) || [];
+            cartItemsContainer.innerHTML = ''; // Clear existing items
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+                cartCountElement.textContent = 0;
+                cartSubtotalElement.textContent = '$0.00';
+                cartTotalElement.textContent = '$0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex items-center justify-between py-4 border-b';
+                itemElement.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.imageUrl}" alt="${item.name}" class="w-20 h-20 object-cover rounded-md">
+                        <div>
+                            <p class="font-semibold">${item.name}</p>
+                            <p class="text-sm text-gray-500">$${item.price.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    <button data-id="${item.id}" class="remove-from-cart text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+                subtotal += item.price;
+            });
+
+            cartSubtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            cartTotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            cartCountElement.textContent = cart.length;
+            lucide.createIcons();
+        }
+
+        // --- REMOVE FROM CART LOGIC ---
+        cartItemsContainer.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-from-cart')) {
+                const button = e.target.closest('.remove-from-cart');
+                const productId = button.dataset.id;
+                let cart = JSON.parse(localStorage.getItem('auraCart')) || [];
+                cart = cart.filter(item => item.id !== productId);
+                localStorage.setItem('auraCart', JSON.stringify(cart));
+                displayCart(); // Refresh the cart display
+            }
+        });
+        
+        // Initial display
+        displayCart();
+    </script>
+    
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
