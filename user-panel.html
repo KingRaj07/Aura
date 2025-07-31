@@ -21,6 +21,17 @@
         .nav-link { position: relative; transition: color 0.3s; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .panel-tab {
+            cursor: pointer;
+            padding: 1rem;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .panel-tab.active {
+            border-color: #1a1a1a;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -50,14 +61,67 @@
     <main id="user-content" class="container mx-auto p-8 hidden">
         <h1 class="text-4xl font-bold mb-8">Your Account</h1>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-4">Profile</h2>
-            <div class="space-y-4">
-                <div>
-                    <p class="text-sm font-medium text-gray-500">Email Address</p>
-                    <p id="user-email" class="text-lg text-gray-800">Loading...</p>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar Navigation -->
+            <aside class="md:col-span-1">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <nav class="flex flex-col space-y-2">
+                        <button data-target="profile" class="panel-tab text-left active">Profile</button>
+                        <button data-target="orders" class="panel-tab text-left">Order History</button>
+                        <button data-target="addresses" class="panel-tab text-left">Saved Addresses</button>
+                    </nav>
                 </div>
-                <!-- More user details like name, address, etc. can be added here later -->
+            </aside>
+
+            <!-- Main Panel Content -->
+            <div class="md:col-span-3">
+                <!-- Profile Section -->
+                <div id="profile" class="panel-content bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-6">Profile Information</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-sm font-medium text-gray-500">Full Name</label>
+                            <input type="text" value="John Doe" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <div>
+                            <label class="text-sm font-medium text-gray-500">Email Address</label>
+                            <p id="user-email" class="mt-1 text-lg text-gray-800 bg-gray-100 p-2 rounded-md">Loading...</p>
+                        </div>
+                        <button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Order History Section -->
+                <div id="orders" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
+                    <h2 class="text-2xl font-bold mb-6">Order History</h2>
+                    <div class="space-y-4">
+                        <!-- Example Order -->
+                        <div class="border p-4 rounded-md">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="font-semibold">Order #12345</p>
+                                    <p class="text-sm text-gray-500">Date: 25 July 2025</p>
+                                </div>
+                                <p class="font-semibold">$264.00</p>
+                            </div>
+                        </div>
+                        <!-- More orders would be listed here -->
+                        <p class="text-gray-500">You have no past orders.</p>
+                    </div>
+                </div>
+
+                <!-- Saved Addresses Section -->
+                <div id="addresses" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
+                    <h2 class="text-2xl font-bold mb-6">Saved Addresses</h2>
+                    <div class="space-y-4">
+                         <!-- Example Address -->
+                         <div class="border p-4 rounded-md">
+                            <p class="font-semibold">Main Shipping Address</p>
+                            <p class="text-gray-600">123 Fashion Ave, New York, NY, 10001</p>
+                         </div>
+                        <button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Add New Address</button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -69,53 +133,62 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // IMPORTANT: Replace this with your new, secure Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-            authDomain: "aura-shop-6271b.firebaseapp.com",
-            projectId: "aura-shop-6271b",
-            storageBucket: "aura-shop-6271b.firebasestorage.app",
-            messagingSenderId: "843655403885",
-            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
+              authDomain: "aura-shop-6271b.firebaseapp.com",
+              projectId: "aura-shop-6271b",
+              storageBucket: "aura-shop-6271b.firebasestorage.app",
+              messagingSenderId: "843655403885",
+              appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
         };
         
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // DOM Elements
         const userContent = document.getElementById('user-content');
         const loadingAuth = document.getElementById('loading-auth');
         const logoutButton = document.getElementById('logout-button');
         const userEmailElement = document.getElementById('user-email');
 
-        // --- AUTHENTICATION CHECK ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is logged in, show the panel
                 loadingAuth.classList.add('hidden');
                 userContent.classList.remove('hidden');
                 logoutButton.classList.remove('hidden');
-                
-                // Display user's email
                 userEmailElement.textContent = user.email;
             } else {
-                // User is not logged in, redirect them to the login page
                 alert("Please log in to view your account.");
                 window.location.href = 'login.html';
             }
         });
 
-        // --- LOGOUT LOGIC ---
         logoutButton.addEventListener('click', () => {
             signOut(auth).then(() => {
                 window.location.href = 'index.html';
-            }).catch((error) => {
-                console.error("Logout failed:", error);
+            });
+        });
+
+        // Tab switching logic for the user panel
+        const tabs = document.querySelectorAll('.panel-tab');
+        const contents = document.querySelectorAll('.panel-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Deactivate all tabs and hide all content
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.add('hidden'));
+
+                // Activate the clicked tab and show its content
+                const targetId = tab.dataset.target;
+                const targetContent = document.getElementById(targetId);
+                
+                tab.classList.add('active');
+                if (targetContent) {
+                    targetContent.classList.remove('hidden');
+                }
             });
         });
 
