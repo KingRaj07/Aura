@@ -40,7 +40,7 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                     <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
@@ -66,20 +66,32 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // IMPORTANT: Replace this with your secure Firebase config
         const firebaseConfig = {
-              apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-              authDomain: "aura-shop-6271b.firebaseapp.com",
-              projectId: "aura-shop-6271b",
-              storageBucket: "aura-shop-6271b.firebasestorage.app",
-              messagingSenderId: "843655403885",
-              appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
         };
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // --- DYNAMIC PROFILE LINK ---
+        const profileLink = document.getElementById('profile-link');
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                profileLink.href = 'user-panel.html';
+            } else {
+                profileLink.href = 'login.html';
+            }
+        });
 
         const productContentContainer = document.getElementById('product-content-container');
         const loadingProduct = document.getElementById('loading-product');
@@ -159,6 +171,7 @@
                 messageEl.textContent = "Item is already in your cart.";
                 setTimeout(() => { messageEl.textContent = ""; }, 2000);
             }
+            window.dispatchEvent(new Event('storage')); // Notify other pages of the change
         }
 
         loadProduct();
@@ -167,6 +180,9 @@
     
     <script>
         lucide.createIcons();
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
     </script>
 </body>
 </html>
