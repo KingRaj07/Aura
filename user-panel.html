@@ -4,48 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura - Your Account</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
         .nav-link { position: relative; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-        .panel-tab { cursor: pointer; padding: 1rem; border-bottom: 2px solid transparent; transition: border-color 0.3s, color 0.3s; }
-        .panel-tab.active { border-color: #1a1a1a; color: #1a1a1a; font-weight: 600; }
+        .panel-tab {
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s, color 0.2s;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        .panel-tab.active {
+            background-color: #f3f4f6;
+            color: #111827;
+            font-weight: 600;
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+<body class="bg-white text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><i data-lucide="menu"></i></button></div>
                 <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
                 <div class="hidden lg:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
-                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                    <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
+                    <a href="search.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
                     <a id="profile-link" href="login.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
-                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
+                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                     <button id="logout-button" class="hidden text-gray-600 hover:text-gray-900"><i data-lucide="log-out" class="w-5 h-5"></i></button>
                 </div>
             </div>
         </nav>
     </header>
 
-    <main id="user-content" class="container mx-auto p-8 hidden">
-        <h1 class="text-4xl font-bold mb-8">Your Account</h1>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <aside class="md:col-span-1">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <nav class="flex flex-col space-y-2">
+    <!-- Main Content -->
+    <main id="user-content" class="container mx-auto p-8 hidden bg-gray-50">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">My Account</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar Navigation -->
+            <aside class="lg:col-span-1">
+                <div class="bg-white p-4 rounded-lg shadow-sm border">
+                    <nav class="flex flex-col space-y-1">
                         <button data-target="profile" class="panel-tab text-left active">Profile</button>
                         <button data-target="orders" class="panel-tab text-left">Order History</button>
                         <button data-target="addresses" class="panel-tab text-left">Saved Addresses</button>
@@ -53,41 +76,45 @@
                 </div>
             </aside>
 
-            <div class="md:col-span-3">
-                <div id="profile" class="panel-content bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-6">Profile Information</h2>
+            <!-- Main Panel Content -->
+            <div class="lg:col-span-3">
+                <!-- Profile Section -->
+                <div id="profile" class="panel-content bg-white p-8 rounded-lg shadow-sm border">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-900">Profile Information</h2>
                     <form id="profile-form" class="space-y-4">
                         <div>
-                            <label for="fullName" class="text-sm font-medium text-gray-500">Full Name</label>
-                            <input type="text" id="fullName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" id="fullName" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800">
                         </div>
                         <div>
-                            <label class="text-sm font-medium text-gray-500">Email Address</label>
-                            <p id="user-email" class="mt-1 text-lg text-gray-800 bg-gray-100 p-2 rounded-md">Loading...</p>
+                            <label class="text-sm font-medium text-gray-700">Email Address</label>
+                            <p id="user-email" class="mt-1 text-lg text-gray-500 bg-gray-100 p-3 rounded-lg">Loading...</p>
                         </div>
                          <div>
-                            <label for="address" class="text-sm font-medium text-gray-500">Shipping Address</label>
-                            <input type="text" id="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <label for="address" class="text-sm font-medium text-gray-700">Shipping Address</label>
+                            <input type="text" id="address" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800">
                         </div>
                          <div>
-                            <label for="city" class="text-sm font-medium text-gray-500">City</label>
-                            <input type="text" id="city" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <label for="city" class="text-sm font-medium text-gray-700">City</label>
+                            <input type="text" id="city" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800">
                         </div>
                          <div>
-                            <label for="postalCode" class="text-sm font-medium text-gray-500">Postal Code</label>
-                            <input type="text" id="postalCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <label for="postalCode" class="text-sm font-medium text-gray-700">Postal Code</label>
+                            <input type="text" id="postalCode" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800">
                         </div>
-                        <button type="submit" class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Save Profile</button>
+                        <button type="submit" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full hover:bg-gray-800 transition">Save Profile</button>
                         <p id="profile-message" class="text-sm mt-2"></p>
                     </form>
                 </div>
-                <div id="orders" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
-                    <h2 class="text-2xl font-bold mb-6">Order History</h2>
+                <!-- Order History Section -->
+                <div id="orders" class="panel-content bg-white p-8 rounded-lg shadow-sm border hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-900">Order History</h2>
                     <div class="space-y-4"><p class="text-gray-500">You have no past orders.</p></div>
                 </div>
-                <div id="addresses" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
-                    <h2 class="text-2xl font-bold mb-6">Saved Addresses</h2>
-                    <div class="space-y-4"><button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Add New Address</button></div>
+                <!-- Saved Addresses Section -->
+                <div id="addresses" class="panel-content bg-white p-8 rounded-lg shadow-sm border hidden">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-900">Saved Addresses</h2>
+                    <div class="space-y-4"><button class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full hover:bg-gray-800 transition">Add New Address</button></div>
                 </div>
             </div>
         </div>
@@ -102,7 +129,7 @@
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
+        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",   authDomain: "aura-shop-6271b.firebaseapp.com",   projectId: "aura-shop-6271b",   storageBucket: "aura-shop-6271b.firebasestorage.app",   messagingSenderId: "843655403885",   appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -126,7 +153,6 @@
                 userEmailElement.textContent = user.email;
                 profileLink.href = 'user-panel.html';
                 
-                // Load user profile data from Firestore
                 const userDocRef = doc(db, "users", user.uid);
                 const userDocSnap = await getDoc(userDocRef);
                 if (userDocSnap.exists()) {
@@ -162,7 +188,7 @@
                     address: address,
                     city: city,
                     postalCode: postalCode
-                }, { merge: true }); // merge: true prevents overwriting other fields like email
+                }, { merge: true });
 
                 profileMessage.textContent = 'Profile saved successfully!';
                 profileMessage.classList.add('text-green-500');
