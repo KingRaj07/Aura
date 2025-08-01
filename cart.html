@@ -17,30 +17,31 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
         .nav-link { position: relative; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-white text-gray-800">
 
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><i data-lucide="menu"></i></button></div>
                 <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
                 <div class="hidden lg:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
-                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                    <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
+                    <a href="search.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
                     <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
-                    <a href="cart.html" class="text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
+                    <a href="cart.html" class="text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
         </nav>
@@ -53,67 +54,73 @@
         </div>
     </header>
 
-    <main class="container mx-auto p-8">
-        <h1 class="text-4xl font-bold mb-8">Your Shopping Cart</h1>
+    <main class="bg-gray-50">
+        <div class="container mx-auto px-6 py-16">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">Your Cart</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Cart Items -->
-            <div id="cart-items-container" class="md:col-span-2 bg-white p-6 rounded-lg shadow-md">
-                <!-- Cart items will be loaded here -->
-                <p>Your cart is empty.</p>
-            </div>
-
-            <!-- Order Summary -->
-            <aside class="md:col-span-1">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4">Order Summary</h2>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span>Subtotal</span>
-                            <span id="cart-subtotal">$0.00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Shipping</span>
-                            <span>Free</span>
-                        </div>
-                        <div class="flex justify-between font-bold text-lg border-t pt-2 mt-2">
-                            <span>Total</span>
-                            <span id="cart-total">$0.00</span>
-                        </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div id="cart-items-container" class="lg:col-span-2 space-y-4">
+                    <!-- Cart items will be loaded here -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                        <p>Your cart is empty.</p>
                     </div>
-                    <a href="checkout.html" id="checkout-link" class="block text-center w-full mt-6 bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition">Proceed to Checkout</a>
                 </div>
-            </aside>
+
+                <!-- Order Summary -->
+                <aside class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm sticky top-28">
+                        <h2 class="text-xl font-bold mb-4 border-b pb-4">Order Summary</h2>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-gray-600">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">$0.00</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>Shipping</span>
+                                <span>Free</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-lg border-t pt-4 mt-4">
+                                <span>Total</span>
+                                <span id="cart-total">$0.00</span>
+                            </div>
+                        </div>
+                        <a href="checkout.html" id="checkout-link" class="block text-center w-full mt-6 bg-gray-900 text-white font-bold py-3 px-6 rounded-full hover:bg-gray-800 transition">Proceed to Checkout</a>
+                    </div>
+                </aside>
+            </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2"><h3 class="text-xl font-bold text-gray-900 mb-4">AURA</h3><p class="text-gray-600 max-w-md">Timeless apparel designed for the modern world.</p></div>
+                <div><h4 class="font-semibold text-gray-800 mb-4">Shop</h4><ul class="space-y-2"><li><a href="shop.html" class="text-gray-600 hover:text-gray-900">All Products</a></li><li><a href="new-arrivals.html" class="text-gray-600 hover:text-gray-900">New Arrivals</a></li></ul></div>
+                <div><h4 class="font-semibold text-gray-800 mb-4">Company</h4><ul class="space-y-2"><li><a href="about.html" class="text-gray-600 hover:text-gray-900">About Us</a></li><li><a href="contact.html" class="text-gray-600 hover:text-gray-900">Contact</a></li></ul></div>
+            </div>
+            <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm"><p>&copy; 2025 Aura. All Rights Reserved.</p></div>
+        </div>
+    </footer>
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-            authDomain: "aura-shop-6271b.firebaseapp.com",
-            projectId: "aura-shop-6271b",
-            storageBucket: "aura-shop-6271b.firebasestorage.app",
-            messagingSenderId: "843655403885",
-            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
-        };
         
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",   authDomain: "aura-shop-6271b.firebaseapp.com",   projectId: "aura-shop-6271b",   storageBucket: "aura-shop-6271b.firebasestorage.app",   messagingSenderId: "843655403885",   appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
+        
+        let auth;
+        try {
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+        } catch(e) { console.error("Firebase init failed", e)}
 
-        // --- DYNAMIC PROFILE LINK ---
         const profileLink = document.getElementById('profile-link');
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                profileLink.href = 'user-panel.html';
-            } else {
-                profileLink.href = 'login.html';
-            }
+            profileLink.href = user ? 'user-panel.html' : 'login.html';
         });
 
-        // --- CART DISPLAY LOGIC ---
         const cartItemsContainer = document.getElementById('cart-items-container');
         const cartSubtotalElement = document.getElementById('cart-subtotal');
         const cartTotalElement = document.getElementById('cart-total');
@@ -122,10 +129,10 @@
 
         function displayCart() {
             const cart = JSON.parse(localStorage.getItem('auraCart')) || [];
-            cartItemsContainer.innerHTML = ''; // Clear existing items
+            cartItemsContainer.innerHTML = ''; 
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>';
+                cartItemsContainer.innerHTML = '<div class="bg-white p-6 rounded-lg shadow-sm text-center"><p>Your cart is empty.</p></div>';
                 cartCountElement.textContent = 0;
                 cartSubtotalElement.textContent = '$0.00';
                 cartTotalElement.textContent = '$0.00';
@@ -137,16 +144,16 @@
             let subtotal = 0;
             cart.forEach(item => {
                 const itemElement = document.createElement('div');
-                itemElement.className = 'flex items-center justify-between py-4 border-b';
+                itemElement.className = 'flex items-center justify-between p-4 bg-white rounded-lg shadow-sm';
                 itemElement.innerHTML = `
                     <div class="flex items-center space-x-4">
-                        <img src="${item.imageUrl}" alt="${item.name}" class="w-20 h-20 object-cover rounded-md">
+                        <img src="${item.imageUrl}" alt="${item.name}" class="w-24 h-24 object-cover rounded-md">
                         <div>
-                            <p class="font-semibold">${item.name}</p>
-                            <p class="text-sm text-gray-500">$${item.price.toFixed(2)}</p>
+                            <p class="font-semibold text-lg">${item.name}</p>
+                            <p class="text-gray-600">$${item.price.toFixed(2)}</p>
                         </div>
                     </div>
-                    <button data-id="${item.id}" class="remove-from-cart text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+                    <button data-id="${item.id}" class="remove-from-cart text-gray-500 hover:text-red-500 transition"><i data-lucide="trash-2" class="w-5 h-5 pointer-events-none"></i></button>
                 `;
                 cartItemsContainer.appendChild(itemElement);
                 subtotal += item.price;
@@ -158,7 +165,6 @@
             lucide.createIcons();
         }
 
-        // --- REMOVE FROM CART LOGIC ---
         cartItemsContainer.addEventListener('click', (e) => {
             const removeButton = e.target.closest('.remove-from-cart');
             if (removeButton) {
@@ -166,14 +172,13 @@
                 let cart = JSON.parse(localStorage.getItem('auraCart')) || [];
                 cart = cart.filter(item => item.id !== productId);
                 localStorage.setItem('auraCart', JSON.stringify(cart));
-                displayCart(); // Refresh the cart display
-                window.dispatchEvent(new Event('storage')); // Notify other pages of the change
+                displayCart(); 
+                window.dispatchEvent(new Event('storage')); 
             }
         });
         
-        // Initial display
         displayCart();
-        window.addEventListener('storage', displayCart); // Listen for changes from other pages
+        window.addEventListener('storage', displayCart);
     </script>
     
     <script>
