@@ -39,7 +39,7 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                     <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
@@ -106,7 +106,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
@@ -129,19 +129,34 @@
         const placeOrderBtn = document.getElementById('place-order-btn');
         const orderMessage = document.getElementById('order-message');
         const cartCountElement = document.getElementById('cart-count');
+        const profileLink = document.getElementById('profile-link');
 
         let currentUser = null;
         let currentCart = [];
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
+                profileLink.href = 'user-panel.html';
                 loadingAuth.classList.add('hidden');
                 checkoutContent.classList.remove('hidden');
                 displayOrderSummary();
+
+                // Pre-fill form with user's saved address
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    document.getElementById('fullName').value = data.username || '';
+                    document.getElementById('address').value = data.address || '';
+                    document.getElementById('city').value = data.city || '';
+                    document.getElementById('postalCode').value = data.postalCode || '';
+                }
+
             } else {
+                profileLink.href = 'login.html';
                 alert("Please log in to proceed to checkout.");
-                window.location.href = 'login.html';
+                window.location.href = window.location.origin + '/login.html';
             }
         });
 
@@ -205,6 +220,7 @@
                 // Clear the cart
                 localStorage.removeItem('auraCart');
                 updateCartCount();
+                window.dispatchEvent(new Event('storage'));
 
                 orderMessage.textContent = 'Order placed successfully! Thank you.';
                 orderMessage.classList.add('text-green-500');
@@ -226,6 +242,7 @@
             cartCountElement.textContent = cart.length;
         }
         updateCartCount();
+        window.addEventListener('storage', updateCartCount);
 
     </script>
     
