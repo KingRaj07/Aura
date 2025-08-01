@@ -67,8 +67,7 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="search.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
-                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                     <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
@@ -124,90 +123,79 @@
     <!-- Main JavaScript Logic for the page -->
     <script type="module">
         // --- Firebase SDK Imports ---
-        // Imports the necessary functions from the Firebase libraries to connect to the database.
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- Firebase Configuration ---
-        // This object connects the website to your specific Firebase project.
-        // IMPORTANT: You must replace the placeholder values with your real keys.
         const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
         
         // --- Initialize Firebase ---
-        let db; 
+        let db, auth; 
         try { 
             const app = initializeApp(firebaseConfig); 
             db = getFirestore(app); 
+            auth = getAuth(app);
         } catch (error) { 
             console.error("Firebase initialization failed:", error); 
         }
 
+        // --- DYNAMIC PROFILE LINK ---
+        const profileLink = document.getElementById('profile-link');
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // If user is logged in, link to the user panel.
+                profileLink.href = 'user-panel.html';
+            } else {
+                // If user is not logged in, link to the login page.
+                profileLink.href = 'login.html';
+            }
+        });
+
         // --- Newsletter Signup Logic ---
-        // Handles the form submission for the newsletter in the footer.
         const newsletterForm = document.getElementById('newsletter-form');
         if (newsletterForm) {
             const newsletterEmailInput = document.getElementById('newsletter-email');
             const newsletterMessage = document.getElementById('newsletter-message');
             newsletterForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); 
-                if (!db) return; 
-                const email = newsletterEmailInput.value;
-                newsletterMessage.textContent = "Subscribing..."; 
-                newsletterMessage.classList.remove('text-red-500', 'text-green-500');
-                try { 
-                    await addDoc(collection(db, "newsletter-subscribers"), { email: email, subscribedAt: serverTimestamp() });
-                    newsletterMessage.textContent = "Thank you for subscribing!"; 
-                    newsletterMessage.classList.add('text-green-500'); 
-                    newsletterEmailInput.value = '';
-                } catch (error) { 
-                    newsletterMessage.textContent = "Subscription failed. Please try again."; 
-                    newsletterMessage.classList.add('text-red-500'); 
-                }
+                e.preventDefault(); if (!db) return; const email = newsletterEmailInput.value;
+                newsletterMessage.textContent = "Subscribing..."; newsletterMessage.classList.remove('text-red-500', 'text-green-500');
+                try { await addDoc(collection(db, "newsletter-subscribers"), { email: email, subscribedAt: serverTimestamp() });
+                    newsletterMessage.textContent = "Thank you for subscribing!"; newsletterMessage.classList.add('text-green-500'); newsletterEmailInput.value = '';
+                } catch (error) { newsletterMessage.textContent = "Subscription failed. Please try again."; newsletterMessage.classList.add('text-red-500'); }
             });
         }
 
         // --- Dynamic New Arrivals Logic ---
-        // Fetches the 4 most recent products from the database and displays them.
         const newArrivalsGrid = document.getElementById('new-arrivals-grid');
         const newArrivalsQuery = query(collection(db, "products"), limit(4));
         onSnapshot(newArrivalsQuery, (snapshot) => {
-            newArrivalsGrid.innerHTML = ''; // Clears any old content.
-            if (snapshot.empty) { 
-                newArrivalsGrid.innerHTML = '<p>Check back soon for new arrivals!</p>'; 
-                return; 
-            }
+            newArrivalsGrid.innerHTML = ''; 
+            if (snapshot.empty) { newArrivalsGrid.innerHTML = '<p>Check back soon for new arrivals!</p>'; return; }
             snapshot.forEach((doc, index) => {
-                const product = doc.data(); 
-                const productId = doc.id;
-                // Creates the HTML for each product card.
+                const product = doc.data(); const productId = doc.id;
                 const productCard = `<a href="product.html?id=${productId}" class="product-card bg-white rounded-lg shadow-md overflow-hidden group" data-aos="fade-up" data-aos-delay="${(index % 4 + 1) * 100}"><div class="overflow-hidden"><img src="${product.imageUrl}" alt="${product.name}" class="w-full h-80 object-cover"></div><div class="p-6 text-center"><h3 class="font-semibold text-lg text-gray-800">${product.name}</h3><p class="text-gray-600 mt-2">$${product.price.toFixed(2)}</p></div></a>`;
                 newArrivalsGrid.innerHTML += productCard;
             });
-            AOS.refresh(); // Tells the animation library to check for new items.
+            AOS.refresh();
         });
 
         // --- Shopping Cart Counter Logic ---
-        // Checks how many items are in the cart (stored in the browser) and updates the icon.
         const cartCountElement = document.getElementById('cart-count');
         function updateCartCount() { 
             const cart = JSON.parse(localStorage.getItem('auraCart')) || []; 
             cartCountElement.textContent = cart.length; 
         }
-        updateCartCount(); // Update on initial page load.
-        window.addEventListener('storage', updateCartCount); // Listens for changes from other pages.
+        updateCartCount(); 
+        window.addEventListener('storage', updateCartCount);
     </script>
     
     <!-- General Page Scripts -->
     <script>
-        // Initializes all the icons from the Lucide library.
         lucide.createIcons();
-        
-        // Logic for the mobile menu (hamburger icon).
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
-        
-        // Initializes the Animate on Scroll library.
         AOS.init({ duration: 800, once: true });
     </script>
 </body>
