@@ -8,130 +8,109 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Poppins & Inter -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome (for new form icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Lucide Icons (for the header) -->
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .form-body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            font-family: "Poppins", sans-serif;
-        }
-        .wrapper {
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 420px;
-            color: #fff;
-            border-radius: 16px;
-            padding: 30px 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .wrapper h1 { font-size: 36px; text-align: center; font-weight: 700; }
-        .wrapper .input-box { width: 100%; height: 50px; position: relative; margin: 30px 0; }
-        .input-box input { width: 100%; height: 100%; background: rgba(45, 55, 72, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); outline: none; border-radius: 40px; font-size: 16px; color: #fff; padding: 20px 45px 20px 20px; transition: border-color 0.3s; }
-        .input-box input:focus { border-color: rgba(255, 255, 255, 0.5); }
-        .input-box input::placeholder { color: #ccc; }
-        .input-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #ccc; }
-        .wrapper .btn { width: 100%; height: 45px; background: #fff; border: none; outline: none; border-radius: 40px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); cursor: pointer; font-size: 16px; color: #333; font-weight: 600; transition: background-color 0.3s; }
-        .wrapper .btn:hover { background-color: #f0f0f0; }
-        .wrapper .register-link { font-size: 14.5px; text-align: center; margin: 20px 0 15px; }
-        .register-link p a { color: #fff; text-decoration: none; font-weight: 600; cursor: pointer; }
-        .register-link p a:hover { text-decoration: underline; }
-        .auth-message { text-align: center; margin-top: 15px; font-size: 14.5px; font-weight: 500; }
-        .header-nav { font-family: 'Inter', sans-serif; }
-        .nav-link { position: relative; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
-        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; }
     </style>
 </head>
-<body>
-    <header class="bg-white/80 backdrop-blur-md absolute top-0 left-0 right-0 z-50 header-nav">
-        <nav class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
-                <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
-                <div class="hidden lg:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
-                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
-                </div>
-                <div class="flex items-center space-x-5">
-                    <a href="search.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
-                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
-                    <a href="login.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="bg-gray-100 text-gray-800">
 
-    <div class="form-body">
-        <div class="wrapper" id="login-wrapper">
-            <form id="login-form">
-                <h1>Login</h1>
-                <div class="input-box"><input id="login-email" type="email" placeholder="Email" required><i class="fas fa-user"></i></div>
-                <div class="input-box"><input id="login-password" type="password" placeholder="Password" required><i class="fas fa-lock"></i></div>
-                <button type="submit" class="btn">Login</button>
-                <div class="register-link"><p>Don't have an account? <a id="show-signup">Register</a></p></div>
-                <p id="login-auth-message" class="auth-message"></p>
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
+            <div class="text-center">
+                <a href="index.html" class="text-3xl font-bold text-gray-900 tracking-wider">AURA</a>
+                <h2 id="form-title" class="mt-4 text-2xl font-bold text-gray-800">Login to your account</h2>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="login-email" class="text-sm font-medium text-gray-700">Email</label>
+                    <input id="login-email" type="email" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                </div>
+                <div>
+                    <label for="login-password" class="text-sm font-medium text-gray-700">Password</label>
+                    <input id="login-password" type="password" required class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                </div>
+                <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Login</button>
             </form>
-        </div>
-        <div class="wrapper hidden" id="signup-wrapper">
-            <form id="signup-form">
-                <h1>Sign Up</h1>
-                <div class="input-box"><input id="signup-username" type="text" placeholder="Username" required><i class="fas fa-user"></i></div>
-                <div class="input-box"><input id="signup-email" type="email" placeholder="Email" required><i class="fas fa-envelope"></i></div>
-                <div class="input-box"><input id="signup-password" type="password" placeholder="Password" required><i class="fas fa-lock"></i></div>
-                <div class="input-box"><input id="signup-confirm-password" type="password" placeholder="Confirm Password" required><i class="fas fa-lock"></i></div>
-                <button type="submit" class="btn">Create Account</button>
-                <div class="register-link"><p>Already have an account? <a id="show-login">Login</a></p></div>
-                <p id="signup-auth-message" class="auth-message"></p>
+
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="space-y-4 hidden">
+                <div>
+                    <label for="signup-username" class="text-sm font-medium text-gray-700">User Name</label>
+                    <input id="signup-username" type="text" required class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                </div>
+                <div>
+                    <label for="signup-email" class="text-sm font-medium text-gray-700">Email</label>
+                    <input id="signup-email" type="email" required class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                </div>
+                <div>
+                    <label for="signup-password" class="text-sm font-medium text-gray-700">Password</label>
+                    <input id="signup-password" type="password" required class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                    <p class="text-xs text-gray-500 mt-1">Must be 8+ characters and include letters, numbers, and symbols.</p>
+                </div>
+                <div>
+                    <label for="signup-confirm-password" class="text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input id="signup-confirm-password" type="password" required class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 transition">
+                </div>
+                <button type="submit" class="w-full py-3 font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-900 transition-transform transform hover:scale-105">Create Account</button>
             </form>
+            
+            <p id="auth-message" class="text-sm text-center"></p>
+
+            <div class="text-center text-sm text-gray-600">
+                <p id="toggle-text">Don't have an account? <a href="#" id="show-signup" class="font-medium text-indigo-600 hover:text-indigo-500">Register</a></p>
+            </div>
         </div>
     </div>
 
+    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",  authDomain: "aura-shop-6271b.firebaseapp.com",  projectId: "aura-shop-6271b",  storageBucket: "aura-shop-6271b.firebasestorage.app",  messagingSenderId: "843655403885",  appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"};
+        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",   authDomain: "aura-shop-6271b.firebaseapp.com",   projectId: "aura-shop-6271b",   storageBucket: "aura-shop-6271b.firebasestorage.app",   messagingSenderId: "843655403885",   appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
+        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const loginWrapper = document.getElementById('login-wrapper');
-        const signupWrapper = document.getElementById('signup-wrapper');
-        const showSignupBtn = document.getElementById('show-signup');
-        const showLoginBtn = document.getElementById('show-login');
+        const formTitle = document.getElementById('form-title');
         const loginForm = document.getElementById('login-form');
         const signupForm = document.getElementById('signup-form');
-        const loginAuthMessage = document.getElementById('login-auth-message');
-        const signupAuthMessage = document.getElementById('signup-auth-message');
+        const showSignupBtn = document.getElementById('show-signup');
+        const toggleText = document.getElementById('toggle-text');
+        const authMessage = document.getElementById('auth-message');
 
-        showSignupBtn.addEventListener('click', () => { loginWrapper.classList.add('hidden'); signupWrapper.classList.remove('hidden'); });
-        showLoginBtn.addEventListener('click', () => { signupWrapper.classList.add('hidden'); loginWrapper.classList.remove('hidden'); });
+        showSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (loginForm.classList.contains('hidden')) {
+                // Switch to Login
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                formTitle.textContent = 'Login to your account';
+                toggleText.innerHTML = `Don't have an account? <a href="#" id="show-signup" class="font-medium text-indigo-600 hover:text-indigo-500">Register</a>`;
+                // Re-add event listener
+                document.getElementById('show-signup').addEventListener('click', arguments.callee);
+            } else {
+                // Switch to Sign Up
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                formTitle.textContent = 'Create a new account';
+                toggleText.innerHTML = `Already have an account? <a href="#" id="show-signup" class="font-medium text-indigo-600 hover:text-indigo-500">Login</a>`;
+                 // Re-add event listener
+                document.getElementById('show-signup').addEventListener('click', arguments.callee);
+            }
+        });
 
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -140,22 +119,22 @@
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
             
-            if (password !== confirmPassword) { signupAuthMessage.textContent = 'Passwords do not match.'; signupAuthMessage.style.color = '#ff6b6b'; return; }
-            if (password.length < 8) { signupAuthMessage.textContent = 'Password must be at least 8 characters.'; signupAuthMessage.style.color = '#ff6b6b'; return; }
+            if (password !== confirmPassword) { authMessage.textContent = 'Passwords do not match.'; authMessage.classList.add('text-red-500'); return; }
+            if (password.length < 8) { authMessage.textContent = 'Password must be at least 8 characters.'; authMessage.classList.add('text-red-500'); return; }
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-            if (!passwordRegex.test(password)) { signupAuthMessage.textContent = 'Password needs letters, numbers, & symbols.'; signupAuthMessage.style.color = '#ff6b6b'; return; }
+            if (!passwordRegex.test(password)) { authMessage.textContent = 'Password needs letters, numbers, & symbols.'; authMessage.classList.add('text-red-500'); return; }
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 await updateProfile(user, { displayName: username });
-                await setDoc(doc(db, "users", user.uid), { username: username, email: user.email, isAdmin: false }); // Set isAdmin to false for new users
-                signupAuthMessage.textContent = 'Account created! Redirecting...';
-                signupAuthMessage.style.color = '#50C878';
-                setTimeout(() => { window.location.href = 'index.html'; }, 2000); // Redirect to home page
+                await setDoc(doc(db, "users", user.uid), { username: username, email: user.email, isAdmin: false });
+                authMessage.textContent = 'Account created! Redirecting...';
+                authMessage.classList.add('text-green-500');
+                setTimeout(() => { window.location.href = 'index.html'; }, 2000);
             } catch (error) {
-                signupAuthMessage.textContent = error.message;
-                signupAuthMessage.style.color = '#ff6b6b';
+                authMessage.textContent = error.message;
+                authMessage.classList.add('text-red-500');
             }
         });
 
@@ -167,27 +146,25 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then(async (userCredential) => {
                     const user = userCredential.user;
-                    loginAuthMessage.textContent = 'Login successful! Checking permissions...';
-                    loginAuthMessage.style.color = '#50C878';
+                    authMessage.textContent = 'Login successful! Checking permissions...';
+                    authMessage.classList.add('text-green-500');
                     const userDocRef = doc(db, "users", user.uid);
                     const userDocSnap = await getDoc(userDocRef);
                     if (userDocSnap.exists() && userDocSnap.data().isAdmin === true) {
                         setTimeout(() => { window.location.href = 'admin.html'; }, 1500);
                     } else {
-                        setTimeout(() => { window.location.href = 'index.html'; }, 1500); // Redirect to home page
+                        setTimeout(() => { window.location.href = 'index.html'; }, 1500);
                     }
                 })
                 .catch((error) => {
-                    loginAuthMessage.textContent = error.message;
-                    loginAuthMessage.style.color = '#ff6b6b';
+                    authMessage.textContent = error.message;
+                    authMessage.classList.add('text-red-500');
                 });
         });
+
     </script>
     <script>
         lucide.createIcons();
-        const cartCountElement = document.getElementById('cart-count');
-        function updateCartCount() { const cart = JSON.parse(localStorage.getItem('auraCart')) || []; cartCountElement.textContent = cart.length; }
-        updateCartCount();
     </script>
 </body>
 </html>
