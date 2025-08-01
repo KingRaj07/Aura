@@ -18,30 +18,31 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
         .nav-link { position: relative; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-white text-gray-800">
 
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><i data-lucide="menu"></i></button></div>
                 <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
                 <div class="hidden lg:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
-                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
-                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
-                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
-                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                    <a href="index.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-600 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
+                    <a href="search.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
                     <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
-                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
+                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                 </div>
             </div>
         </nav>
@@ -83,14 +84,9 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // --- DYNAMIC PROFILE LINK ---
         const profileLink = document.getElementById('profile-link');
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                profileLink.href = 'user-panel.html';
-            } else {
-                profileLink.href = 'login.html';
-            }
+            profileLink.href = user ? 'user-panel.html' : 'login.html';
         });
 
         const productContentContainer = document.getElementById('product-content-container');
@@ -119,27 +115,26 @@
 
                 if (productDocSnap.exists()) {
                     const productData = productDocSnap.data();
-                    currentProduct = { id: productDocSnap.id, ...productData }; // Store product details
+                    currentProduct = { id: productDocSnap.id, ...productData };
                     
                     document.title = `Aura - ${currentProduct.name}`;
 
                     productContentContainer.innerHTML = `
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-                            <div>
-                                <img src="${currentProduct.imageUrl}" alt="${currentProduct.name}" class="w-full h-auto object-cover rounded-lg shadow-lg">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <img src="${currentProduct.imageUrl}" alt="${currentProduct.name}" class="w-full h-auto object-cover rounded-md shadow-lg">
                             </div>
-                            <div class="space-y-6">
+                            <div class="space-y-6 pt-4">
                                 <h1 class="text-4xl font-bold text-gray-900">${currentProduct.name}</h1>
                                 <p class="text-3xl font-medium text-gray-700">$${currentProduct.price.toFixed(2)}</p>
                                 <p class="text-gray-600 leading-relaxed">This is a placeholder description. You can add a description field in your admin panel to customize this for each product.</p>
-                                <button id="add-to-cart-btn" class="w-full bg-gray-800 text-white font-bold py-3 px-6 rounded-md hover:bg-gray-900 transition duration-300">Add to Cart</button>
-                                <p id="add-to-cart-message" class="text-center text-green-500 mt-2"></p>
+                                <button id="add-to-cart-btn" class="w-full bg-gray-900 text-white font-bold py-4 px-6 rounded-full hover:bg-gray-800 transition">Add to Cart</button>
+                                <p id="add-to-cart-message" class="text-center text-green-600 font-semibold mt-2"></p>
                             </div>
                         </div>
                     `;
                     loadingProduct.classList.add('hidden');
                     
-                    // Add event listener AFTER the button is created
                     const addToCartBtn = document.getElementById('add-to-cart-btn');
                     addToCartBtn.addEventListener('click', handleAddToCart);
 
@@ -157,11 +152,11 @@
 
             let cart = JSON.parse(localStorage.getItem('auraCart')) || [];
             
-            // Check if product is already in cart to avoid duplicates
             if (!cart.some(item => item.id === currentProduct.id)) {
                 cart.push(currentProduct);
                 localStorage.setItem('auraCart', JSON.stringify(cart));
                 updateCartCount();
+                window.dispatchEvent(new Event('storage'));
 
                 const messageEl = document.getElementById('add-to-cart-message');
                 messageEl.textContent = "Added to cart!";
@@ -171,11 +166,11 @@
                 messageEl.textContent = "Item is already in your cart.";
                 setTimeout(() => { messageEl.textContent = ""; }, 2000);
             }
-            window.dispatchEvent(new Event('storage')); // Notify other pages of the change
         }
 
         loadProduct();
-        updateCartCount(); // Initial count on page load
+        updateCartCount();
+        window.addEventListener('storage', updateCartCount);
     </script>
     
     <script>
