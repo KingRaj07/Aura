@@ -32,7 +32,8 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="user-panel.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a id="profile-link" href="login.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                     <button id="logout-button" class="hidden text-gray-600 hover:text-gray-900"><i data-lucide="log-out" class="w-5 h-5"></i></button>
                 </div>
             </div>
@@ -101,7 +102,7 @@
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",  authDomain: "aura-shop-6271b.firebaseapp.com",  projectId: "aura-shop-6271b",  storageBucket: "aura-shop-6271b.firebasestorage.app",  messagingSenderId: "843655403885",  appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
+        const firebaseConfig = { apiKey: "YOUR_API_KEY", authDomain: "YOUR_PROJECT_ID.firebaseapp.com", projectId: "YOUR_PROJECT_ID", storageBucket: "YOUR_PROJECT_ID.appspot.com", messagingSenderId: "YOUR_MESSAGING_SENDER_ID", appId: "YOUR_APP_ID" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -112,6 +113,7 @@
         const userEmailElement = document.getElementById('user-email');
         const profileForm = document.getElementById('profile-form');
         const profileMessage = document.getElementById('profile-message');
+        const profileLink = document.getElementById('profile-link');
         
         let currentUser = null;
 
@@ -122,6 +124,7 @@
                 userContent.classList.remove('hidden');
                 logoutButton.classList.remove('hidden');
                 userEmailElement.textContent = user.email;
+                profileLink.href = 'user-panel.html';
                 
                 // Load user profile data from Firestore
                 const userDocRef = doc(db, "users", user.uid);
@@ -182,10 +185,17 @@
                 if (targetContent) { targetContent.classList.remove('hidden'); }
             });
         });
+
+        const cartCountElement = document.getElementById('cart-count');
+        function updateCartCount() { 
+            const cart = JSON.parse(localStorage.getItem('auraCart')) || []; 
+            cartCountElement.textContent = cart.length; 
+        }
+        updateCartCount();
+        window.addEventListener('storage', updateCartCount);
     </script>
     <script>
         lucide.createIcons();
     </script>
 </body>
 </html>
-
