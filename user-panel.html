@@ -4,39 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura - Your Account</title>
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
         .nav-link { position: relative; transition: color 0.3s; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-        .panel-tab {
-            cursor: pointer;
-            padding: 1rem;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s, color 0.3s;
-        }
-        .panel-tab.active {
-            border-color: #1a1a1a;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
+        .panel-tab { cursor: pointer; padding: 1rem; border-bottom: 2px solid transparent; transition: border-color 0.3s, color 0.3s; }
+        .panel-tab.active { border-color: #1a1a1a; color: #1a1a1a; font-weight: 600; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
-
-    <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -51,19 +33,15 @@
                 </div>
                 <div class="flex items-center space-x-5">
                     <a href="user-panel.html" class="text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
-                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
                     <button id="logout-button" class="hidden text-gray-600 hover:text-gray-900"><i data-lucide="log-out" class="w-5 h-5"></i></button>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- This main content will be hidden by default and shown only to logged-in users -->
     <main id="user-content" class="container mx-auto p-8 hidden">
         <h1 class="text-4xl font-bold mb-8">Your Account</h1>
-
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Sidebar Navigation -->
             <aside class="md:col-span-1">
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <nav class="flex flex-col space-y-2">
@@ -74,127 +52,137 @@
                 </div>
             </aside>
 
-            <!-- Main Panel Content -->
             <div class="md:col-span-3">
-                <!-- Profile Section -->
                 <div id="profile" class="panel-content bg-white p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-bold mb-6">Profile Information</h2>
-                    <div class="space-y-4">
+                    <form id="profile-form" class="space-y-4">
                         <div>
-                            <label class="text-sm font-medium text-gray-500">Full Name</label>
-                            <input type="text" value="John Doe" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <label for="fullName" class="text-sm font-medium text-gray-500">Full Name</label>
+                            <input type="text" id="fullName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
                         </div>
                         <div>
                             <label class="text-sm font-medium text-gray-500">Email Address</label>
                             <p id="user-email" class="mt-1 text-lg text-gray-800 bg-gray-100 p-2 rounded-md">Loading...</p>
                         </div>
-                        <button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Save Changes</button>
-                    </div>
+                         <div>
+                            <label for="address" class="text-sm font-medium text-gray-500">Shipping Address</label>
+                            <input type="text" id="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                         <div>
+                            <label for="city" class="text-sm font-medium text-gray-500">City</label>
+                            <input type="text" id="city" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                         <div>
+                            <label for="postalCode" class="text-sm font-medium text-gray-500">Postal Code</label>
+                            <input type="text" id="postalCode" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                        </div>
+                        <button type="submit" class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Save Profile</button>
+                        <p id="profile-message" class="text-sm mt-2"></p>
+                    </form>
                 </div>
-
-                <!-- Order History Section -->
                 <div id="orders" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
                     <h2 class="text-2xl font-bold mb-6">Order History</h2>
-                    <div class="space-y-4">
-                        <!-- Example Order -->
-                        <div class="border p-4 rounded-md">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="font-semibold">Order #12345</p>
-                                    <p class="text-sm text-gray-500">Date: 25 July 2025</p>
-                                </div>
-                                <p class="font-semibold">$264.00</p>
-                            </div>
-                        </div>
-                        <!-- More orders would be listed here -->
-                        <p class="text-gray-500">You have no past orders.</p>
-                    </div>
+                    <div class="space-y-4"><p class="text-gray-500">You have no past orders.</p></div>
                 </div>
-
-                <!-- Saved Addresses Section -->
                 <div id="addresses" class="panel-content bg-white p-6 rounded-lg shadow-md hidden">
                     <h2 class="text-2xl font-bold mb-6">Saved Addresses</h2>
-                    <div class="space-y-4">
-                         <!-- Example Address -->
-                         <div class="border p-4 rounded-md">
-                            <p class="font-semibold">Main Shipping Address</p>
-                            <p class="text-gray-600">123 Fashion Ave, New York, NY, 10001</p>
-                         </div>
-                        <button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Add New Address</button>
-                    </div>
+                    <div class="space-y-4"><button class="bg-gray-800 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-900">Add New Address</button></div>
                 </div>
             </div>
         </div>
     </main>
     
-    <!-- This message is shown while checking authentication -->
     <div id="loading-auth" class="flex items-center justify-center h-screen">
         <p class="text-lg text-gray-600">Loading your profile...</p>
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
-              authDomain: "aura-shop-6271b.firebaseapp.com",
-              projectId: "aura-shop-6271b",
-              storageBucket: "aura-shop-6271b.firebasestorage.app",
-              messagingSenderId: "843655403885",
-              appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
-        };
-        
+        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",  authDomain: "aura-shop-6271b.firebaseapp.com",  projectId: "aura-shop-6271b",  storageBucket: "aura-shop-6271b.firebasestorage.app",  messagingSenderId: "843655403885",  appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
         const userContent = document.getElementById('user-content');
         const loadingAuth = document.getElementById('loading-auth');
         const logoutButton = document.getElementById('logout-button');
         const userEmailElement = document.getElementById('user-email');
+        const profileForm = document.getElementById('profile-form');
+        const profileMessage = document.getElementById('profile-message');
+        
+        let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
+                currentUser = user;
                 loadingAuth.classList.add('hidden');
                 userContent.classList.remove('hidden');
                 logoutButton.classList.remove('hidden');
                 userEmailElement.textContent = user.email;
+                
+                // Load user profile data from Firestore
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    document.getElementById('fullName').value = data.username || '';
+                    document.getElementById('address').value = data.address || '';
+                    document.getElementById('city').value = data.city || '';
+                    document.getElementById('postalCode').value = data.postalCode || '';
+                }
             } else {
-                alert("Please log in to view your account.");
                 window.location.href = 'login.html';
             }
         });
 
-        logoutButton.addEventListener('click', () => {
-            signOut(auth).then(() => {
-                window.location.href = 'index.html';
-            });
+        logoutButton.addEventListener('click', () => { signOut(auth).then(() => { window.location.href = 'index.html'; }); });
+
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const fullName = document.getElementById('fullName').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const postalCode = document.getElementById('postalCode').value;
+
+            profileMessage.textContent = 'Saving...';
+            profileMessage.classList.remove('text-red-500', 'text-green-500');
+
+            try {
+                const userDocRef = doc(db, "users", currentUser.uid);
+                await setDoc(userDocRef, {
+                    username: fullName,
+                    address: address,
+                    city: city,
+                    postalCode: postalCode
+                }, { merge: true }); // merge: true prevents overwriting other fields like email
+
+                profileMessage.textContent = 'Profile saved successfully!';
+                profileMessage.classList.add('text-green-500');
+            } catch (error) {
+                console.error("Error saving profile: ", error);
+                profileMessage.textContent = 'Failed to save profile.';
+                profileMessage.classList.add('text-red-500');
+            }
         });
 
-        // Tab switching logic for the user panel
         const tabs = document.querySelectorAll('.panel-tab');
         const contents = document.querySelectorAll('.panel-content');
-
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Deactivate all tabs and hide all content
                 tabs.forEach(t => t.classList.remove('active'));
                 contents.forEach(c => c.classList.add('hidden'));
-
-                // Activate the clicked tab and show its content
                 const targetId = tab.dataset.target;
                 const targetContent = document.getElementById(targetId);
-                
                 tab.classList.add('active');
-                if (targetContent) {
-                    targetContent.classList.remove('hidden');
-                }
+                if (targetContent) { targetContent.classList.remove('hidden'); }
             });
         });
-
     </script>
-    
     <script>
         lucide.createIcons();
     </script>
