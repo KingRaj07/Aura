@@ -21,6 +21,8 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -34,9 +36,8 @@
                     <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="#" class="text-gray-600 hover:text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
+                    <a id="profile-link" href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                     <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
-                    <a href="login.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
                 </div>
             </div>
         </nav>
@@ -48,6 +49,7 @@
             <a href="contact.html" class="block py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</a>
         </div>
     </header>
+
     <main>
         <section class="bg-gray-100 py-12">
             <div class="container mx-auto px-6 text-center">
@@ -69,6 +71,8 @@
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200">
         <div class="container mx-auto px-6 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -78,7 +82,44 @@
             <div class="mt-12 border-t border-gray-200 pt-6 text-center text-gray-500 text-sm"><p>&copy; 2024 Aura. All Rights Reserved.</p></div>
         </div>
     </footer>
+    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // --- DYNAMIC PROFILE LINK ---
+        const profileLink = document.getElementById('profile-link');
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                profileLink.href = 'user-panel.html';
+            } else {
+                profileLink.href = 'login.html';
+            }
+        });
+
+        const cartCountElement = document.getElementById('cart-count');
+        function updateCartCount() { 
+            const cart = JSON.parse(localStorage.getItem('auraCart')) || []; 
+            cartCountElement.textContent = cart.length; 
+        }
+        updateCartCount();
+        window.addEventListener('storage', updateCartCount);
+    </script>
+    
     <script>
         lucide.createIcons();
         const menuToggle = document.getElementById('menu-toggle');
