@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Search</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f8f8; }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 50%; transform: translateX(-50%); background-color: #1a1a1a; transition: width 0.3s; }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .product-card img { transition: transform 0.4s ease-in-out; }
+        .product-card:hover img { transform: scale(1.05); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="lg:hidden"><button id="menu-toggle" class="text-gray-800 focus:outline-none"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button></div>
+                <div class="text-2xl font-bold text-gray-900 tracking-wider"><a href="index.html">AURA</a></div>
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Home</a>
+                    <a href="shop.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Shop</a>
+                    <a href="new-arrivals.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">New Arrivals</a>
+                    <a href="about.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">About Us</a>
+                    <a href="contact.html" class="nav-link text-gray-700 hover:text-gray-900 font-medium">Contact</a>
+                </div>
+                <div class="flex items-center space-x-5">
+                    <a href="search.html" class="text-gray-900"><i data-lucide="search" class="w-5 h-5"></i></a>
+                    <a href="user-panel.html" class="text-gray-600 hover:text-gray-900"><i data-lucide="user" class="w-5 h-5"></i></a>
+                    <a href="cart.html" class="text-gray-600 hover:text-gray-900 relative"><i data-lucide="shopping-cart" class="w-5 h-5"></i><span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold mb-4">Search Products</h1>
+        
+        <!-- Search Form -->
+        <form id="search-form" class="mb-8">
+            <div class="relative">
+                <input type="text" id="search-input" placeholder="Search for products..." class="w-full p-4 pl-12 text-lg border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-800">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-6 h-6 text-gray-400"></i>
+                </div>
+            </div>
+        </form>
+
+        <!-- Search Results -->
+        <div>
+            <h2 id="results-title" class="text-2xl font-bold mb-6"></h2>
+            <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Search results will be loaded here -->
+            </div>
+        </div>
+    </main>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",
+            authDomain: "aura-shop-6271b.firebaseapp.com",
+            projectId: "aura-shop-6271b",
+            storageBucket: "aura-shop-6271b.firebasestorage.app",
+            messagingSenderId: "843655403885",
+            appId: "1:843655403885:web:f4c10d0d0aadbc8f396264"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
+        const resultsTitle = document.getElementById('results-title');
+        const resultsGrid = document.getElementById('results-grid');
+        let allProducts = [];
+
+        // Fetch all products once on page load
+        async function fetchAllProducts() {
+            const querySnapshot = await getDocs(collection(db, "products"));
+            querySnapshot.forEach((doc) => {
+                allProducts.push({ id: doc.id, ...doc.data() });
+            });
+        }
+
+        function performSearch(query) {
+            resultsGrid.innerHTML = ''; // Clear previous results
+            const lowerCaseQuery = query.toLowerCase();
+
+            if (!query) {
+                resultsTitle.textContent = '';
+                return;
+            }
+
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(lowerCaseQuery)
+            );
+
+            resultsTitle.textContent = `Found ${filteredProducts.length} result(s) for "${query}"`;
+
+            if (filteredProducts.length === 0) {
+                resultsGrid.innerHTML = '<p>No products found matching your search.</p>';
+                return;
+            }
+
+            filteredProducts.forEach(product => {
+                const productCard = `
+                    <a href="product.html?id=${product.id}" class="product-card bg-white rounded-lg shadow-md overflow-hidden group">
+                        <div class="overflow-hidden">
+                           <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-80 object-cover">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="font-semibold text-lg text-gray-800">${product.name}</h3>
+                            <p class="text-gray-600 mt-2">$${product.price.toFixed(2)}</p>
+                        </div>
+                    </a>
+                `;
+                resultsGrid.innerHTML += productCard;
+            });
+        }
+
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            // Update URL for shareable links
+            const url = new URL(window.location);
+            url.searchParams.set('q', query);
+            window.history.pushState({}, '', url);
+            performSearch(query);
+        });
+        
+        // Check for a search query in the URL when the page loads
+        async function initialLoad() {
+            await fetchAllProducts();
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q');
+            if (query) {
+                searchInput.value = query;
+                performSearch(query);
+            }
+        }
+
+        initialLoad();
+        
+        const cartCountElement = document.getElementById('cart-count');
+        function updateCartCount() { const cart = JSON.parse(localStorage.getItem('auraCart')) || []; cartCountElement.textContent = cart.length; }
+        updateCartCount();
+    </script>
+    
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
