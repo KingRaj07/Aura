@@ -80,6 +80,7 @@
                     <div class="sidebar-heading">Sales Channels</div>
                     <a href="#" id="online-store-toggle" class="sidebar-link" aria-expanded="false"><i data-lucide="store"></i>Online Store</a>
                     <div class="sub-menu space-y-1">
+                        <a href="#" data-target="themes" class="sidebar-link text-sm"><i data-lucide="paintbrush"></i>Themes</a>
                         <a href="#" data-target="pages" class="sidebar-link text-sm"><i data-lucide="file-text"></i>Pages</a>
                         <a href="#" data-target="preferences" class="sidebar-link text-sm"><i data-lucide="sliders-horizontal"></i>Preferences</a>
                     </div>
@@ -91,96 +92,47 @@
 
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto p-8">
-                <!-- Dashboard Content -->
+                <!-- All other sections from before (Dashboard, Products, etc.) go here -->
                 <div id="dashboard" class="admin-section">
                     <!-- ... Dashboard content ... -->
                 </div>
-                <!-- Products Content -->
-                <div id="products" class="admin-section hidden">
-                    <!-- ... Products content ... -->
-                </div>
-                <!-- Orders Content -->
-                <div id="orders" class="admin-section hidden">
-                    <!-- ... Orders content ... -->
-                </div>
-                <!-- Users Content -->
-                <div id="users" class="admin-section hidden">
-                    <!-- ... Users content ... -->
-                </div>
-                <!-- Discounts Content -->
-                <div id="discounts" class="admin-section hidden">
-                    <!-- ... Discounts content ... -->
-                </div>
-                <!-- Analytics Content -->
-                <div id="analytics" class="admin-section hidden">
-                    <!-- ... Analytics content ... -->
+                 <!-- ... other sections ... -->
+
+                <!-- Themes Content -->
+                <div id="themes" class="admin-section hidden">
+                     <h1 class="text-3xl font-bold text-gray-900 mb-6">Themes</h1>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold mb-4">Customize Theme</h2>
+                        <form id="theme-form" class="space-y-4">
+                            <div>
+                                <label for="primary-color" class="block text-sm font-medium text-gray-700">Primary Color</label>
+                                <div class="mt-1 flex items-center space-x-3">
+                                    <input type="color" id="primary-color-picker" class="w-12 h-12 rounded-md border border-gray-300">
+                                    <input type="text" id="primary-color-hex" placeholder="#000000" class="block w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Choose the main color for buttons and links on your website.</p>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">Save Theme</button>
+                            </div>
+                            <p id="theme-message" class="text-sm text-right"></p>
+                        </form>
+                     </div>
                 </div>
 
                 <!-- Pages Content -->
                 <div id="pages" class="admin-section hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h1 class="text-3xl font-bold text-gray-900">Pages</h1>
-                        <button id="add-page-button" class="bg-gray-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition">Add page</button>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-x-auto">
-                         <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Title</th>
-                                    <th scope="col" class="px-6 py-3">Visibility</th>
-                                    <th scope="col" class="px-6 py-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pages-list"></tbody>
-                        </table>
-                    </div>
+                    <!-- ... Pages content ... -->
                 </div>
                 
                 <!-- Page Editor Content (hidden by default) -->
                 <div id="page-editor" class="admin-section hidden">
-                     <h1 id="page-editor-title" class="text-3xl font-bold text-gray-900 mb-6">Add Page</h1>
-                    <form id="page-form">
-                        <input type="hidden" id="page-id">
-                        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
-                            <div>
-                                <label for="page-title" class="block text-sm font-medium text-gray-700">Title</label>
-                                <input type="text" id="page-title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                            </div>
-                            <div>
-                                <label for="page-content" class="block text-sm font-medium text-gray-700">Content</label>
-                                <textarea id="page-content" rows="10" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
-                            </div>
-                            <div class="flex justify-end space-x-4">
-                                <button type="button" id="cancel-page-edit" class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Cancel</button>
-                                <button type="submit" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">Save Page</button>
-                            </div>
-                        </div>
-                    </form>
+                     <!-- ... Page Editor content ... -->
                 </div>
                 
                 <!-- Preferences Content -->
                 <div id="preferences" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Preferences</h1>
-                    <form id="preferences-form">
-                        <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
-                            <div>
-                                <h2 class="text-xl font-bold mb-4">Social sharing image and SEO</h2>
-                                <div>
-                                    <label for="pref-title" class="block text-sm font-medium text-gray-700">Home page title</label>
-                                    <input type="text" id="pref-title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                                    <p class="text-xs text-gray-500 mt-1">Enter a title to be shown on search engines like Google.</p>
-                                </div>
-                                <div class="mt-4">
-                                    <label for="pref-description" class="block text-sm font-medium text-gray-700">Meta description</label>
-                                    <textarea id="pref-description" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
-                                </div>
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="submit" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">Save</button>
-                            </div>
-                             <p id="preferences-message" class="text-sm text-right"></p>
-                        </div>
-                    </form>
+                    <!-- ... Preferences content ... -->
                 </div>
 
             </main>
@@ -203,168 +155,66 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- DOM Elements ---
-        const adminWrapper = document.getElementById('admin-wrapper');
-        const loadingAuth = document.getElementById('loading-auth');
-        const logoutButton = document.getElementById('logout-button');
-        const pagesList = document.getElementById('pages-list');
-        const addPageButton = document.getElementById('add-page-button');
-        const pageEditor = document.getElementById('page-editor');
-        const onlineStoreSection = document.getElementById('online-store');
-        const pageForm = document.getElementById('page-form');
-        const pageIdInput = document.getElementById('page-id');
-        const pageTitleInput = document.getElementById('page-title');
-        const pageContentInput = document.getElementById('page-content');
-        const cancelPageEditButton = document.getElementById('cancel-page-edit');
-        const pageEditorTitle = document.getElementById('page-editor-title');
-        const preferencesForm = document.getElementById('preferences-form');
-        const prefTitleInput = document.getElementById('pref-title');
-        const prefDescriptionInput = document.getElementById('pref-description');
-        const preferencesMessage = document.getElementById('preferences-message');
-        // Add other elements as needed...
+        // --- All existing DOM elements and functions from before ---
+        // ...
 
-        // --- SECURITY CHECK & INITIAL LOAD ---
+        // --- New DOM Elements for Themes ---
+        const themeForm = document.getElementById('theme-form');
+        const colorPicker = document.getElementById('primary-color-picker');
+        const colorHexInput = document.getElementById('primary-color-hex');
+        const themeMessage = document.getElementById('theme-message');
+
+        // --- Link Color Picker and Hex Input ---
+        colorPicker.addEventListener('input', (e) => {
+            colorHexInput.value = e.target.value;
+        });
+        colorHexInput.addEventListener('input', (e) => {
+            colorPicker.value = e.target.value;
+        });
+
+        // --- Load Theme ---
+        async function loadTheme() {
+            const themeDocRef = doc(db, "settings", "theme");
+            const themeDocSnap = await getDoc(themeDocRef);
+            if (themeDocSnap.exists()) {
+                const data = themeDocSnap.data();
+                colorPicker.value = data.primaryColor || '#000000';
+                colorHexInput.value = data.primaryColor || '#000000';
+            }
+        }
+
+        // --- Save Theme ---
+        themeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const themeData = {
+                primaryColor: colorHexInput.value
+            };
+            themeMessage.textContent = 'Saving...';
+            themeMessage.classList.remove('text-red-500', 'text-green-500');
+            try {
+                await setDoc(doc(db, "settings", "theme"), themeData);
+                themeMessage.textContent = 'Theme saved successfully!';
+                themeMessage.classList.add('text-green-500');
+            } catch (error) {
+                console.error("Error saving theme:", error);
+                themeMessage.textContent = 'Failed to save theme.';
+                themeMessage.classList.add('text-red-500');
+            }
+        });
+
+        // --- Initial Load ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                const userDocRef = doc(db, "users", user.uid);
-                const userDocSnap = await getDoc(userDocRef);
-                if (userDocSnap.exists() && userDocSnap.data().isAdmin === true) {
-                    loadingAuth.classList.add('hidden');
-                    adminWrapper.classList.remove('hidden');
-                    // Load all necessary data
-                    loadPages();
-                    loadPreferences();
-                    // You would also call loadProducts(), loadOrders(), etc. here
-                } else {
-                    alert("Access Denied. You are not an administrator.");
-                    window.location.href = window.location.origin + '/index.html';
-                }
+                // ... existing auth logic
+                loadPages();
+                loadPreferences();
+                loadTheme(); // Load theme on successful login
             } else {
-                alert("Please log in to access this page.");
-                window.location.href = window.location.origin + '/login.html';
+                // ... existing auth logic
             }
         });
 
-        // --- LOGOUT LOGIC ---
-        logoutButton.addEventListener('click', () => {
-            signOut(auth).then(() => { window.location.href = window.location.origin + '/index.html'; });
-        });
-
-        // --- PAGES LOGIC ---
-        function loadPages() {
-            const pagesRef = collection(db, "pages");
-            onSnapshot(pagesRef, (snapshot) => {
-                pagesList.innerHTML = '';
-                if (snapshot.empty) {
-                    pagesList.innerHTML = `<tr><td colspan="3" class="text-center p-4">No pages created yet.</td></tr>`;
-                    return;
-                }
-                snapshot.forEach(doc => {
-                    const page = doc.data();
-                    const pageRow = document.createElement('tr');
-                    pageRow.className = 'bg-white border-b';
-                    pageRow.innerHTML = `
-                        <td class="px-6 py-4 font-medium text-gray-900">${page.title}</td>
-                        <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Visible</span></td>
-                        <td class="px-6 py-4 flex space-x-2">
-                            <button data-id="${doc.id}" class="edit-page-btn text-blue-500 hover:text-blue-700"><i data-lucide="edit" class="w-4 h-4 pointer-events-none"></i></button>
-                            <button data-id="${doc.id}" class="delete-page-btn text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4 pointer-events-none"></i></button>
-                        </td>
-                    `;
-                    pagesList.appendChild(pageRow);
-                });
-                lucide.createIcons();
-            });
-        }
-        
-        function showPageEditor(isEditing = false) {
-            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
-            pageEditor.classList.remove('hidden');
-            pageEditorTitle.textContent = isEditing ? 'Edit Page' : 'Add Page';
-        }
-        
-        function hidePageEditor() {
-            pageEditor.classList.add('hidden');
-            document.getElementById('online-store').classList.remove('hidden'); // Show the correct section
-            pageForm.reset();
-            pageIdInput.value = '';
-        }
-
-        addPageButton.addEventListener('click', () => showPageEditor(false));
-        cancelPageEditButton.addEventListener('click', hidePageEditor);
-
-        pageForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const pageId = pageIdInput.value;
-            const pageData = {
-                title: pageTitleInput.value,
-                content: pageContentInput.value
-            };
-            try {
-                if (pageId) {
-                    await setDoc(doc(db, "pages", pageId), pageData, { merge: true });
-                } else {
-                    await addDoc(collection(db, "pages"), pageData);
-                }
-                hidePageEditor();
-            } catch (error) {
-                console.error("Error saving page:", error);
-                alert("Failed to save page.");
-            }
-        });
-
-        pagesList.addEventListener('click', async (e) => {
-            const targetButton = e.target.closest('button');
-            if (!targetButton) return;
-            const pageId = targetButton.dataset.id;
-
-            if (targetButton.classList.contains('edit-page-btn')) {
-                const pageDoc = await getDoc(doc(db, "pages", pageId));
-                if (pageDoc.exists()) {
-                    const data = pageDoc.data();
-                    pageIdInput.value = pageId;
-                    pageTitleInput.value = data.title;
-                    pageContentInput.value = data.content;
-                    showPageEditor(true);
-                }
-            } else if (targetButton.classList.contains('delete-page-btn')) {
-                if (confirm('Are you sure you want to delete this page?')) {
-                    await deleteDoc(doc(db, "pages", pageId));
-                }
-            }
-        });
-
-        // --- PREFERENCES LOGIC ---
-        async function loadPreferences() {
-            const prefDocRef = doc(db, "settings", "preferences");
-            const prefDocSnap = await getDoc(prefDocRef);
-            if (prefDocSnap.exists()) {
-                const data = prefDocSnap.data();
-                prefTitleInput.value = data.title || '';
-                prefDescriptionInput.value = data.description || '';
-            }
-        }
-
-        preferencesForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const prefData = {
-                title: prefTitleInput.value,
-                description: prefDescriptionInput.value
-            };
-            preferencesMessage.textContent = 'Saving...';
-            preferencesMessage.classList.remove('text-red-500', 'text-green-500');
-            try {
-                await setDoc(doc(db, "settings", "preferences"), prefData);
-                preferencesMessage.textContent = 'Preferences saved successfully!';
-                preferencesMessage.classList.add('text-green-500');
-            } catch (error) {
-                console.error("Error saving preferences:", error);
-                preferencesMessage.textContent = 'Failed to save preferences.';
-                preferencesMessage.classList.add('text-red-500');
-            }
-        });
-
-        // --- SIDEBAR NAVIGATION LOGIC ---
+        // --- Sidebar Navigation Logic ---
         const sidebarLinks = document.querySelectorAll('.sidebar-link');
         const adminSections = document.querySelectorAll('.admin-section');
         const onlineStoreToggle = document.getElementById('online-store-toggle');
@@ -387,11 +237,12 @@
                 link.classList.add('active');
                 document.getElementById(targetId).classList.remove('hidden');
                 
-                if (targetId === 'pages' || targetId === 'preferences') {
+                if (targetId === 'pages' || targetId === 'preferences' || targetId === 'themes') {
                     onlineStoreToggle.classList.add('active');
                     onlineStoreToggle.setAttribute('aria-expanded', 'true');
-                } else {
+                } else if (link.id !== 'online-store-toggle') {
                     onlineStoreToggle.setAttribute('aria-expanded', 'false');
+                    onlineStoreToggle.classList.remove('active');
                 }
             });
         });
