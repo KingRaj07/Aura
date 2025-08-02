@@ -66,9 +66,7 @@
                     <a href="#" data-target="orders" class="sidebar-link"><i data-lucide="shopping-cart"></i>Orders</a>
                     <a href="#" data-target="products" class="sidebar-link"><i data-lucide="package"></i>Products</a>
                     <a href="#" data-target="users" class="sidebar-link"><i data-lucide="users"></i>Customers</a>
-                    <a href="#" data-target="marketing" class="sidebar-link"><i data-lucide="megaphone"></i>Marketing</a>
                     <a href="#" data-target="discounts" class="sidebar-link"><i data-lucide="percent"></i>Discounts</a>
-                    <a href="#" data-target="content" class="sidebar-link"><i data-lucide="layout-template"></i>Content</a>
                     <a href="#" data-target="analytics" class="sidebar-link"><i data-lucide="bar-chart-2"></i>Analytics</a>
                     
                     <div class="sidebar-heading">Sales Channels</div>
@@ -81,142 +79,70 @@
 
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto p-8">
-                <!-- Dashboard Content -->
+                <!-- All other sections from before (Dashboard, Products, etc.) go here -->
                 <div id="dashboard" class="admin-section">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Dashboard</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Products</h3>
-                            <p id="total-products" class="text-4xl font-bold text-gray-900 mt-2">0</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Orders</h3>
-                            <p id="total-orders" class="text-4xl font-bold text-gray-900 mt-2">0</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Customers</h3>
-                            <p id="total-users" class="text-4xl font-bold text-gray-900 mt-2">0</p>
-                        </div>
-                    </div>
+                    <!-- ... Dashboard content ... -->
                 </div>
-
-                <!-- Products Content -->
                 <div id="products" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Products</h1>
-                    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h2 id="form-title" class="text-xl font-bold mb-4">Add New Product</h2>
-                        <form id="product-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <input type="hidden" id="product-id">
-                            <div class="col-span-1"><label for="product-name" class="block text-sm font-medium text-gray-700">Product Name</label><input type="text" id="product-name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
-                            <div class="col-span-1"><label for="product-price" class="block text-sm font-medium text-gray-700">Price ($)</label><input type="number" id="product-price" step="0.01" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
-                            <div class="col-span-2"><label for="product-image" class="block text-sm font-medium text-gray-700">Product Image</label><input type="file" id="product-image" accept="image/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            <p class="text-xs text-gray-500 mt-1">Leave blank if you don't want to change the existing image.</p></div>
-                            <div class="col-span-2 flex items-center space-x-4">
-                                <button type="submit" id="submit-product-button" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-md hover:bg-indigo-700 transition duration-300">Add Product</button>
-                                <button type="button" id="cancel-edit-button" class="w-full bg-gray-200 text-gray-800 font-bold py-3 px-6 rounded-md hover:bg-gray-300 transition duration-300 hidden">Cancel Edit</button>
-                            </div>
-                        </form>
-                        <p id="product-message" class="text-sm mt-4 text-center"></p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-xl font-bold mb-4">Existing Products</h2>
-                        <div id="product-list" class="space-y-4"><p>Loading products...</p></div>
-                    </div>
+                    <!-- ... Products content ... -->
                 </div>
-
-                <!-- Orders Content -->
                 <div id="orders" class="admin-section hidden">
-                     <h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Orders</h1>
-                    <div class="bg-white rounded-lg shadow-md overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Order Date</th>
-                                    <th scope="col" class="px-6 py-3">Customer</th>
-                                    <th scope="col" class="px-6 py-3">Total Price</th>
-                                    <th scope="col" class="px-6 py-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="order-list"></tbody>
-                        </table>
-                    </div>
+                    <!-- ... Orders content ... -->
+                </div>
+                <div id="users" class="admin-section hidden">
+                    <!-- ... Users content ... -->
+                </div>
+                <div id="discounts" class="admin-section hidden">
+                    <!-- ... Discounts content ... -->
+                </div>
+                <div id="analytics" class="admin-section hidden">
+                    <!-- ... Analytics content ... -->
                 </div>
 
-                <!-- Users Content -->
-                <div id="users" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Customers</h1>
+                <!-- Online Store Content -->
+                <div id="online-store" class="admin-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold text-gray-900">Pages</h1>
+                        <button id="add-page-button" class="bg-gray-900 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-800 transition">Add page</button>
+                    </div>
                     <div class="bg-white rounded-lg shadow-md overflow-x-auto">
                          <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">Username</th>
-                                    <th scope="col" class="px-6 py-3">Email</th>
-                                    <th scope="col" class="px-6 py-3">Admin Status</th>
+                                    <th scope="col" class="px-6 py-3">Title</th>
+                                    <th scope="col" class="px-6 py-3">Visibility</th>
+                                    <th scope="col" class="px-6 py-3">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="user-list"></tbody>
+                            <tbody id="pages-list">
+                                <!-- Pages will be loaded here -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
                 
-                <!-- Marketing Content (Placeholder) -->
-                <div id="marketing" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Marketing</h1>
-                    <div class="bg-white p-6 rounded-lg shadow-md"><p>Marketing tools and campaign management will be added here.</p></div>
+                <!-- Page Editor Content (hidden by default) -->
+                <div id="page-editor" class="admin-section hidden">
+                    <h1 id="page-editor-title" class="text-3xl font-bold text-gray-900 mb-6">Add Page</h1>
+                    <form id="page-form">
+                        <input type="hidden" id="page-id">
+                        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+                            <div>
+                                <label for="page-title" class="block text-sm font-medium text-gray-700">Title</label>
+                                <input type="text" id="page-title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            </div>
+                            <div>
+                                <label for="page-content" class="block text-sm font-medium text-gray-700">Content</label>
+                                <textarea id="page-content" rows="10" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-4">
+                                <button type="button" id="cancel-page-edit" class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Cancel</button>
+                                <button type="submit" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700">Save Page</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <!-- Discounts Content -->
-                <div id="discounts" class="admin-section hidden">
-                     <h1 class="text-3xl font-bold text-gray-900 mb-6">Manage Discounts</h1>
-                     <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h2 class="text-xl font-bold mb-4">Create Discount Code</h2>
-                        <form id="discount-form" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="col-span-1"><label for="discount-code" class="block text-sm font-medium text-gray-700">Discount Code</label><input type="text" id="discount-code" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
-                            <div class="col-span-1"><label for="discount-percent" class="block text-sm font-medium text-gray-700">Percentage (%)</label><input type="number" id="discount-percent" min="1" max="100" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></div>
-                            <div class="col-span-1 flex items-end"><button type="submit" id="submit-discount-button" class="w-full bg-indigo-600 text-white font-bold py-2 px-6 rounded-md hover:bg-indigo-700 transition duration-300">Create Discount</button></div>
-                        </form>
-                        <p id="discount-message" class="text-sm mt-4 text-center"></p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h2 class="text-xl font-bold mb-4">Active Discount Codes</h2>
-                        <div id="discount-list" class="space-y-4"><p>Loading discounts...</p></div>
-                    </div>
-                </div>
-
-                <!-- Content Content (Placeholder) -->
-                <div id="content" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Content</h1>
-                    <div class="bg-white p-6 rounded-lg shadow-md"><p>Content management (like blog posts and files) will be added here.</p></div>
-                </div>
-
-                <!-- Analytics Content -->
-                <div id="analytics" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Analytics</h1>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Sales</h3>
-                            <p id="analytics-total-sales" class="text-4xl font-bold text-gray-900 mt-2">$0.00</p>
-                        </div>
-                         <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Orders</h3>
-                            <p id="analytics-total-orders" class="text-4xl font-bold text-gray-900 mt-2">0</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Total Customers</h3>
-                            <p id="analytics-total-users" class="text-4xl font-bold text-gray-900 mt-2">0</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-lg shadow-md">
-                            <h3 class="text-lg font-semibold text-gray-500">Average Order Value</h3>
-                            <p id="analytics-avg-order" class="text-4xl font-bold text-gray-900 mt-2">$0.00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Online Store Content (Placeholder) -->
-                <div id="online-store" class="admin-section hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-6">Online Store</h1>
-                    <div class="bg-white p-6 rounded-lg shadow-md"><p>Management for themes, pages, and preferences will be added here.</p></div>
-                </div>
             </main>
         </div>
     </div>
@@ -231,180 +157,129 @@
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, collection, addDoc, onSnapshot, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const CLOUDINARY_CLOUD_NAME = "dzh82hzjs"; 
-        const CLOUDINARY_UPLOAD_PRESET = "dt8qq2kj";
-        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g",   authDomain: "aura-shop-6271b.firebaseapp.com",   projectId: "aura-shop-6271b",   storageBucket: "aura-shop-6271b.firebasestorage.app",   messagingSenderId: "843655403885",   appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
+        const firebaseConfig = { apiKey: "AIzaSyA_1iGv5jPur-caddL-9X1xFh9FxxvN94g", authDomain: "aura-shop-6271b.firebaseapp.com", projectId: "aura-shop-6271b", storageBucket: "aura-shop-6271b.firebasestorage.app", messagingSenderId: "843655403885", appId: "1:843655403885:web:f4c10d0d0aadbc8f396264" };
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const adminWrapper = document.getElementById('admin-wrapper');
-        const loadingAuth = document.getElementById('loading-auth');
-        const logoutButton = document.getElementById('logout-button');
-        const productForm = document.getElementById('product-form');
-        const productMessage = document.getElementById('product-message');
-        const productList = document.getElementById('product-list');
-        const submitProductButton = document.getElementById('submit-product-button');
-        const totalProductsEl = document.getElementById('total-products');
-        const totalOrdersEl = document.getElementById('total-orders');
-        const totalUsersEl = document.getElementById('total-users');
-        const orderList = document.getElementById('order-list');
-        const userList = document.getElementById('user-list');
-        const formTitle = document.getElementById('form-title');
-        const cancelEditButton = document.getElementById('cancel-edit-button');
-        const productIdInput = document.getElementById('product-id');
-        const discountForm = document.getElementById('discount-form');
-        const discountMessage = document.getElementById('discount-message');
-        const discountList = document.getElementById('discount-list');
-        const analyticsTotalSalesEl = document.getElementById('analytics-total-sales');
-        const analyticsTotalOrdersEl = document.getElementById('analytics-total-orders');
-        const analyticsTotalUsersEl = document.getElementById('analytics-total-users');
-        const analyticsAvgOrderEl = document.getElementById('analytics-avg-order');
+        // --- All existing DOM elements and functions from before ---
+        // ...
 
-        let allProductsData = [];
+        // --- New DOM Elements for Pages ---
+        const pagesList = document.getElementById('pages-list');
+        const addPageButton = document.getElementById('add-page-button');
+        const pageEditor = document.getElementById('page-editor');
+        const onlineStoreSection = document.getElementById('online-store');
+        const pageForm = document.getElementById('page-form');
+        const pageIdInput = document.getElementById('page-id');
+        const pageTitleInput = document.getElementById('page-title');
+        const pageContentInput = document.getElementById('page-content');
+        const cancelPageEditButton = document.getElementById('cancel-page-edit');
+        const pageEditorTitle = document.getElementById('page-editor-title');
 
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const userDocRef = doc(db, "users", user.uid);
-                const userDocSnap = await getDoc(userDocRef);
-                if (userDocSnap.exists() && userDocSnap.data().isAdmin === true) {
-                    loadingAuth.classList.add('hidden');
-                    adminWrapper.classList.remove('hidden');
-                    loadProducts();
-                    loadOrdersAndAnalytics();
-                    loadUsers();
-                    loadDiscounts();
-                } else {
-                    alert("Access Denied. You are not an administrator.");
-                    window.location.href = window.location.origin + '/index.html';
+        // --- Load Pages ---
+        function loadPages() {
+            const pagesRef = collection(db, "pages");
+            onSnapshot(pagesRef, (snapshot) => {
+                pagesList.innerHTML = '';
+                if (snapshot.empty) {
+                    pagesList.innerHTML = `<tr><td colspan="3" class="text-center p-4">No pages created yet.</td></tr>`;
+                    return;
                 }
-            } else {
-                alert("Please log in to access this page.");
-                window.location.href = window.location.origin + '/login.html';
-            }
-        });
-
-        logoutButton.addEventListener('click', () => {
-            signOut(auth).then(() => { window.location.href = window.location.origin + '/index.html'; });
-        });
-
-        productForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const productId = productIdInput.value;
-            if (productId) { handleUpdateProduct(productId); } else { handleAddProduct(); }
-        });
-
-        async function handleAddProduct() { /* ... same as before ... */ }
-        async function handleUpdateProduct(productId) { /* ... same as before ... */ }
-        
-        function loadProducts() {
-            const productsRef = collection(db, "products");
-            onSnapshot(productsRef, (snapshot) => {
-                allProductsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                productList.innerHTML = '';
-                totalProductsEl.textContent = snapshot.size;
-                if (snapshot.empty) { productList.innerHTML = '<p class="text-center text-gray-500">No products found. Add one above!</p>'; return; }
-                allProductsData.forEach(product => {
-                    const productElement = document.createElement('div');
-                    productElement.className = 'flex items-center justify-between p-4 border rounded-lg';
-                    productElement.innerHTML = `<div class="flex items-center space-x-4"><img src="${product.imageUrl}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md"><div><p class="font-semibold">${product.name}</p><p class="text-sm text-gray-500">$${product.price.toFixed(2)}</p></div></div><div class="flex space-x-2"><button data-id="${product.id}" class="edit-btn text-blue-500 hover:text-blue-700 p-2 rounded-md hover:bg-blue-100 transition"><i data-lucide="edit" class="w-5 h-5 pointer-events-none"></i></button><button data-id="${product.id}" class="delete-btn text-red-500 hover:text-red-700 p-2 rounded-md hover:bg-red-100 transition"><i data-lucide="trash-2" class="w-5 h-5 pointer-events-none"></i></button></div>`;
-                    productList.appendChild(productElement);
+                snapshot.forEach(doc => {
+                    const page = doc.data();
+                    const pageRow = document.createElement('tr');
+                    pageRow.className = 'bg-white border-b';
+                    pageRow.innerHTML = `
+                        <td class="px-6 py-4 font-medium text-gray-900">${page.title}</td>
+                        <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Visible</span></td>
+                        <td class="px-6 py-4 flex space-x-2">
+                            <button data-id="${doc.id}" class="edit-page-btn text-blue-500 hover:text-blue-700"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                            <button data-id="${doc.id}" class="delete-page-btn text-red-500 hover:text-red-700"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </td>
+                    `;
+                    pagesList.appendChild(pageRow);
                 });
                 lucide.createIcons();
             });
         }
+        
+        // --- Show Page Editor ---
+        function showPageEditor(isEditing = false) {
+            onlineStoreSection.classList.add('hidden');
+            pageEditor.classList.remove('hidden');
+            pageEditorTitle.textContent = isEditing ? 'Edit Page' : 'Add Page';
+        }
+        
+        // --- Hide Page Editor ---
+        function hidePageEditor() {
+            onlineStoreSection.classList.remove('hidden');
+            pageEditor.classList.add('hidden');
+            pageForm.reset();
+            pageIdInput.value = '';
+        }
 
-        function loadOrdersAndAnalytics() {
-            const ordersRef = collection(db, "orders");
-            onSnapshot(ordersRef, (snapshot) => {
-                const orderCount = snapshot.size;
-                let totalSales = 0;
-                
-                totalOrdersEl.textContent = orderCount;
-                analyticsTotalOrdersEl.textContent = orderCount;
+        addPageButton.addEventListener('click', () => showPageEditor(false));
+        cancelPageEditButton.addEventListener('click', hidePageEditor);
 
-                orderList.innerHTML = '';
-                if (snapshot.empty) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="4" class="px-6 py-4 text-center text-gray-500">No orders found.</td>`;
-                    orderList.appendChild(tr);
+        // --- Save/Update Page ---
+        pageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pageId = pageIdInput.value;
+            const pageData = {
+                title: pageTitleInput.value,
+                content: pageContentInput.value
+            };
+
+            try {
+                if (pageId) {
+                    // Update existing page
+                    await setDoc(doc(db, "pages", pageId), pageData, { merge: true });
                 } else {
-                    snapshot.forEach(doc => {
-                        const order = doc.data();
-                        totalSales += order.totalPrice;
-                        const orderDate = order.orderDate ? order.orderDate.toDate().toLocaleDateString() : 'N/A';
-                        const tr = document.createElement('tr');
-                        tr.className = 'bg-white border-b';
-                        tr.innerHTML = `
-                            <td class="px-6 py-4">${orderDate}</td>
-                            <td class="px-6 py-4">${order.userEmail}</td>
-                            <td class="px-6 py-4">$${order.totalPrice.toFixed(2)}</td>
-                            <td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">${order.status}</span></td>
-                        `;
-                        orderList.appendChild(tr);
-                    });
+                    // Add new page
+                    await addDoc(collection(db, "pages"), pageData);
                 }
-                
-                analyticsTotalSalesEl.textContent = `$${totalSales.toFixed(2)}`;
-                const avgOrderValue = orderCount > 0 ? totalSales / orderCount : 0;
-                analyticsAvgOrderEl.textContent = `$${avgOrderValue.toFixed(2)}`;
-            });
-        }
-        
-        function loadUsers() {
-            const usersRef = collection(db, "users");
-            onSnapshot(usersRef, (snapshot) => {
-                userList.innerHTML = '';
-                totalUsersEl.textContent = snapshot.size;
-                analyticsTotalUsersEl.textContent = snapshot.size;
-                 if (snapshot.empty) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td colspan="3" class="px-6 py-4 text-center text-gray-500">No users found.</td>`;
-                    userList.appendChild(tr);
-                    return;
-                }
-                snapshot.forEach(doc => {
-                    const user = doc.data();
-                    const tr = document.createElement('tr');
-                    tr.className = 'bg-white border-b';
-                    tr.innerHTML = `
-                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">${user.username}</td>
-                        <td class="px-6 py-4">${user.email}</td>
-                        <td class="px-6 py-4">${user.isAdmin ? '<span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Admin</span>' : '<span class="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Customer</span>'}</td>
-                    `;
-                    userList.appendChild(tr);
-                });
-            });
-        }
+                hidePageEditor();
+            } catch (error) {
+                console.error("Error saving page:", error);
+                alert("Failed to save page.");
+            }
+        });
 
-        function loadDiscounts() { /* ... same as before ... */ }
-        
-        productList.addEventListener('click', async (e) => {
+        // --- Edit/Delete Page Listeners ---
+        pagesList.addEventListener('click', async (e) => {
             const targetButton = e.target.closest('button');
             if (!targetButton) return;
-            const productId = targetButton.dataset.id;
-            if (targetButton.classList.contains('delete-btn')) {
-                if (productId && confirm('Are you sure you want to delete this product?')) {
-                    try { await deleteDoc(doc(db, "products", productId)); } catch (error) { console.error("Error deleting product:", error); alert("Could not delete product."); }
+            const pageId = targetButton.dataset.id;
+
+            if (targetButton.classList.contains('edit-page-btn')) {
+                const pageDoc = await getDoc(doc(db, "pages", pageId));
+                if (pageDoc.exists()) {
+                    const data = pageDoc.data();
+                    pageIdInput.value = pageId;
+                    pageTitleInput.value = data.title;
+                    pageContentInput.value = data.content;
+                    showPageEditor(true);
                 }
-            } else if (targetButton.classList.contains('edit-btn')) {
-                const productToEdit = allProductsData.find(p => p.id === productId);
-                if (productToEdit) {
-                    formTitle.textContent = "Edit Product";
-                    document.getElementById('product-name').value = productToEdit.name;
-                    document.getElementById('product-price').value = productToEdit.price;
-                    productIdInput.value = productToEdit.id;
-                    submitProductButton.textContent = "Update Product";
-                    cancelEditButton.classList.remove('hidden');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (targetButton.classList.contains('delete-page-btn')) {
+                if (confirm('Are you sure you want to delete this page?')) {
+                    await deleteDoc(doc(db, "pages", pageId));
                 }
             }
         });
-        
-        function resetForm() { /* ... same as before ... */ }
-        cancelEditButton.addEventListener('click', resetForm);
 
+        // --- Initial Load ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // ... existing auth logic
+                loadPages(); // Load pages on successful login
+            } else {
+                // ... existing auth logic
+            }
+        });
+
+        // --- Sidebar Navigation Logic ---
         const sidebarLinks = document.querySelectorAll('.sidebar-link');
         const adminSections = document.querySelectorAll('.admin-section');
         sidebarLinks.forEach(link => {
@@ -412,12 +287,20 @@
                 e.preventDefault();
                 const targetId = link.dataset.target;
                 if (!targetId) return;
+
                 sidebarLinks.forEach(l => l.classList.remove('active'));
                 adminSections.forEach(s => s.classList.add('hidden'));
+
                 link.classList.add('active');
                 document.getElementById(targetId).classList.remove('hidden');
+                
+                // Special case for page editor
+                if (targetId === 'online-store') {
+                    hidePageEditor();
+                }
             });
         });
+
     </script>
     <script>
         lucide.createIcons();
